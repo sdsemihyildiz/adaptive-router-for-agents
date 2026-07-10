@@ -1,0 +1,40 @@
+{
+  "name": "adaptive-router-for-codex",
+  "version": "0.1.0",
+  "description": "Deterministic local routing across GPT-5.6 Luna, Terra, and Sol workers for Codex.",
+  "author": {
+    "name": "sdsemihyildiz",
+    "url": "https://github.com/sdsemihyildiz"
+  },
+  "homepage": "https://github.com/sdsemihyildiz/adaptive-router-for-codex#readme",
+  "repository": "https://github.com/sdsemihyildiz/adaptive-router-for-codex",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "routing",
+    "models",
+    "gpt-5.6",
+    "subagents",
+    "automation"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Adaptive Router for Codex",
+    "shortDescription": "Routes Codex work to the right GPT-5.6 tier.",
+    "longDescription": "An unofficial local routing layer that scores each turn, preserves task continuity, and runs substantive work through model-pinned GPT-5.6 workers with visible wrapper subagents and privacy-limited state.",
+    "developerName": "sdsemihyildiz",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex",
+    "privacyPolicyURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex#privacy",
+    "termsOfServiceURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Route this task automatically.",
+      "Explain which model tier this task needs.",
+      "/sol-max Handle this with maximum reasoning."
+    ]
+  }
+}

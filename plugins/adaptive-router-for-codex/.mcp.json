@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "adaptive-router-for-codex": {
+      "command": "node",
+      "args": [
+        "./mcp/server.mjs"
+      ],
+      "cwd": ".",
+      "tool_timeout_sec": 1900
+    }
+  }
+}

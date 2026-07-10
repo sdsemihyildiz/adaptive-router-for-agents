@@ -1,0 +1,20 @@
+{
+  "name": "adaptive-router-for-codex",
+  "interface": {
+    "displayName": "Adaptive Router for Codex"
+  },
+  "plugins": [
+    {
+      "name": "adaptive-router-for-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/adaptive-router-for-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

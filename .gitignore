@@ -1,0 +1,27 @@
+# Local project memory
+BRAIN.md
+tasks/
+
+# Dependencies and package output
+node_modules/
+**/node_modules/
+*.tgz
+.npm-cache/
+
+# Router state and logs
+.plugin-data/
+router-state/
+routing-decisions.jsonl
+
+# Environment, credentials, and editor state
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Test output
+coverage/
+*.log

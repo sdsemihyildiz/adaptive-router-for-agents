@@ -1,0 +1,38 @@
+{
+  "name": "adaptive-router-for-codex",
+  "version": "0.1.0",
+  "description": "Unofficial community plugin that routes Codex work across GPT-5.6 worker tiers.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "sdsemihyildiz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdsemihyildiz/adaptive-router-for-codex.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    ".codex-plugin/",
+    ".mcp.json",
+    "hooks/",
+    "lib/",
+    "mcp/",
+    "scripts/",
+    "skills/"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:live": "node scripts/test-live.mjs",
+    "syntax": "node --check hooks/router.mjs && node --check lib/routing.mjs && node --check mcp/worker-runtime.mjs && node --check mcp/server.mjs && node --check scripts/diagnose.mjs",
+    "validate": "node scripts/diagnose.mjs --strict",
+    "package:check": "node ../../scripts/check-public-package.mjs",
+    "check": "npm run syntax && npm test && npm run validate && npm run package:check"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "@openai/codex": "0.144.1",
+    "zod": "4.4.3"
+  }
+}

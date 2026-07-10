@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${PLUGIN_ROOT}/hooks/router.mjs\" SessionStart",
+            "commandWindows": "node \"${PLUGIN_ROOT}\\hooks\\router.mjs\" SessionStart",
+            "timeout": 10,
+            "statusMessage": "Loading adaptive model routing"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${PLUGIN_ROOT}/hooks/router.mjs\" UserPromptSubmit",
+            "commandWindows": "node \"${PLUGIN_ROOT}\\hooks\\router.mjs\" UserPromptSubmit",
+            "timeout": 10,
+            "statusMessage": "Selecting the GPT-5.6 worker"
+          }
+        ]
+      }
+    ]
+  }
+}
