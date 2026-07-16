@@ -2,14 +2,14 @@
 
 > **Unofficial community plugin. This project is not affiliated with or endorsed by OpenAI.**
 
-Adaptive Router for Codex chooses a GPT-5.6 worker tier for each Codex turn using deterministic local scoring, explicit slash controls, and conversation continuity. The displayed root model does not hot-swap. For substantive routes, a visible wrapper subagent calls a local MCP worker that starts a model-pinned Codex execution and returns its result.
+Adaptive Router for Codex chooses a GPT-5.6 worker tier for each Codex turn using deterministic local scoring, explicit slash controls, and conversation continuity. The displayed root model does not hot-swap. For substantive routes, the root task calls a local MCP worker that starts a model-pinned Codex execution and returns its result.
 
 ## Features
 
 - Deterministic Luna, Terra, Terra High, Sol, Sol Max, and explicit-only Sol Ultra routes.
 - `/luna`, `/terra`, `/terra-high`, `/sol`, `/sol-max`, `/sol-ultra`, and `/auto` controls.
 - Turkish-aware normalization and conservative continuation inheritance.
-- Visible wrapper subagents for trackable non-direct execution.
+- Root-only routing with no wrapper or nested subagent layer.
 - Cross-platform Node ESM hook for Windows, macOS, and Linux.
 - Local worker spawning with fixed model/effort mappings, no shell interpolation, approval `never`, and bounded sandbox choices.
 - Privacy-limited state and decision logs with no prompt content and no prompt-derived hashes.
@@ -30,10 +30,9 @@ User prompt
   -> UserPromptSubmit hook
   -> deterministic score + explicit override + session continuity
   -> developer routing context
-  -> direct Luna response OR visible wrapper subagent
-  -> run_routed_task MCP tool, called exactly once
+  -> direct Luna response OR root task calls run_routed_task exactly once
   -> plugin-local Codex CLI with pinned model and effort
-  -> worker result returned through wrapper to the root task
+  -> worker result returned directly to the root task
 ```
 
 The `SessionStart` hook installs the operating contract. The `UserPromptSubmit` hook reads one JSON payload, normalizes the prompt in memory, calculates the route, optionally reads/writes minimal session state under `PLUGIN_DATA`, and emits routing context. `ADAPTIVE_MODEL_ROUTER_WORKER=1` bypasses both hooks inside workers to prevent recursion.
@@ -72,7 +71,7 @@ After installation, restart the Codex app or start a new task. The first time th
 | PowerShell | Bash | Effect |
 |---|---|---|
 | `-DryRun` | `--dry-run` | Validate and print intended actions without installing or changing configuration. |
-| `-ConfigureCoordinator` | `--configure-coordinator` | Back up `~/.codex/config.toml`, then set the root coordinator to `gpt-5.6-luna` with low effort. |
+| `-ConfigureCoordinator` | `--configure-coordinator` | Back up `~/.codex/config.toml`, set the root coordinator to `gpt-5.6-luna` with low effort, and enforce `agents.max_depth = 1`. |
 | `-LiveTest` | `--live-test` | Run authenticated Luna, Terra, and Sol worker smoke tests after installation. |
 
 Examples:
@@ -121,11 +120,13 @@ If coordinator configuration was enabled, restore the timestamped backup printed
 
 Sol Ultra is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
 
-## Visible Subagents
+## Root-only Routed Execution
 
-Every non-direct route asks the root coordinator to create one visible subagent whose task name begins with `router_luna`, `router_terra`, `router_terra_high`, `router_sol`, `router_sol_max`, or `router_sol_ultra`. The wrapper posts a start update, calls `run_routed_task` exactly once, and returns the worker response. Generic subagents do not select the model; the MCP worker does.
+Every non-direct route requires the root task to call `run_routed_task` exactly once. The router never creates a generic or visible wrapper subagent, so a subagent cannot become an intermediate coordinator for another agent process.
 
-If the Codex surface cannot create a visible subagent, the root may call the MCP tool directly. If the worker fails, the root continues locally without weakening verification or permission boundaries.
+The routed Codex worker starts with `features.multi_agent=false`, which removes collaboration tools from that worker. Its instruction file also forbids routing, delegation, and additional agent processes. If the worker fails, the root continues locally without weakening verification or permission boundaries.
+
+When `--configure-coordinator` or `-ConfigureCoordinator` is used, the installer also writes `agents.max_depth = 1`. This lets the root Codex task create direct children for unrelated workflows while preventing those children from spawning deeper descendants.
 
 ## Privacy
 
@@ -145,10 +146,11 @@ They contain no prompt text and no prompt-derived hash. State uses `PLUGIN_DATA`
 
 - Routing never authorizes Git mutations, destructive actions, purchases, credential changes, or remote account actions.
 - Workers use approval policy `never` and only `read-only` or `workspace-write` sandbox modes.
+- Workers start with Codex multi-agent tools disabled.
 - The MCP server validates the working directory and caps execution time at 30 minutes.
 - The worker is spawned with `shell: false` and an argument array.
 - The default installer does not modify global config.
-- The coordinator flag creates a timestamped backup before changing top-level model settings.
+- The coordinator flag creates a timestamped backup before changing top-level model settings and enforcing `agents.max_depth = 1`.
 - No installer pipes remote scripts into a shell.
 
 Review the source and hook command before trusting it. See [SECURITY.md](SECURITY.md) for reporting guidance.

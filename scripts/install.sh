@@ -40,7 +40,7 @@ if (( dry_run )); then
   printf 'DRY RUN: would run npm ci --omit=dev in %s\n' "$plugin_root"
   printf 'DRY RUN: would add or confirm marketplace %s at %s\n' "$marketplace_name" "$repo_root"
   printf 'DRY RUN: would install and enable %s\n' "$selector"
-  (( configure_coordinator )) && printf '%s\n' 'DRY RUN: would back up config.toml and set gpt-5.6-luna with low effort'
+  (( configure_coordinator )) && printf '%s\n' 'DRY RUN: would back up config.toml, set gpt-5.6-luna with low effort, and enforce agents.max_depth=1'
   (( live_test )) && printf '%s\n' 'DRY RUN: would run authenticated Luna, Terra, and Sol worker smoke tests'
   printf '%s\n' 'Dry run completed without changing dependencies, plugin state, or global config.'
   exit 0

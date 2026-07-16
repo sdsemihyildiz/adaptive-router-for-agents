@@ -57,14 +57,16 @@ test("dependent continuation inherits but status does not", () => {
   assert.equal(decideRoute({ prompt: "Ne durumdayız?", previousState }).route, "adaptive_luna");
 });
 
-test("visible wrapper fields are emitted for non-direct routes", () => {
+test("non-direct routes require root-only MCP execution without wrapper fields", () => {
   const decision = decideRoute({ prompt: "Implement this API and test it." });
   const context = renderDecisionContext(decision);
-  assert.equal(decision.visibleSubagent, true);
-  assert.match(context, /VISIBLE_SUBAGENT=true/);
-  assert.match(context, /SUBAGENT_PREFIX=router_terra/);
+  assert.equal("visibleSubagent" in decision, false);
+  assert.equal("subagentPrefix" in decision, false);
   assert.match(context, /run_routed_task exactly once/);
   assert.match(context, /adaptive-router-for-codex MCP tool/);
+  assert.match(context, /from the root task/);
+  assert.match(context, /Never create a generic or visible subagent/);
+  assert.doesNotMatch(context, /VISIBLE_SUBAGENT|SUBAGENT_PREFIX/);
 });
 
 test("Luna is direct only when the active root is Luna", () => {

@@ -22,7 +22,7 @@ export function createServer(runWorkerImpl = runWorker) {
     "run_routed_task",
     {
       title: "Run task with selected GPT-5.6 tier",
-      description: "Run a complete task through the model and reasoning tier selected by Adaptive Router for Codex. Invoke it exactly once from the visible wrapper subagent for normal non-direct routes.",
+      description: "Run a complete task through the model and reasoning tier selected by Adaptive Router for Codex. Invoke it exactly once from the root task for normal non-direct routes; never invoke it from a subagent.",
       inputSchema: {
         route: z.enum(Object.keys(routeConfig)),
         task: z.string().min(1).describe("Complete task brief with conversation context, constraints, and required output."),

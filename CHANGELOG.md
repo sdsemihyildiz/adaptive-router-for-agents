@@ -4,6 +4,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Removed the visible wrapper-subagent layer; non-direct routes now call the MCP worker directly from the root task.
+- Disabled Codex multi-agent tools inside routed workers and configured the optional coordinator for `agents.max_depth = 1`.
+
 ## [0.1.0] - 2026-07-10
 
 ### Added

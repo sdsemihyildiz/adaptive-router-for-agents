@@ -25,7 +25,8 @@ test("MCP server registers run_routed_task under the public identity", async () 
     const tools = await client.listTools();
     const routeTool = tools.tools.find((tool) => tool.name === "run_routed_task");
     assert.ok(routeTool);
-    assert.match(routeTool.description, /visible wrapper subagent/);
+    assert.match(routeTool.description, /root task/);
+    assert.match(routeTool.description, /never invoke it from a subagent/);
   } finally {
     await client.close();
   }
@@ -45,6 +46,7 @@ test("worker arguments use separate values and never include task text", () => {
   assert.equal(args.includes("gpt-5.6-sol"), true);
   assert.equal(args.includes("workspace-write"), true);
   assert.equal(args.includes("never"), true);
+  assert.equal(args.includes("features.multi_agent=false"), true);
   assert.equal(args.some((arg) => arg.includes("malicious task; remove files")), false);
 });
 

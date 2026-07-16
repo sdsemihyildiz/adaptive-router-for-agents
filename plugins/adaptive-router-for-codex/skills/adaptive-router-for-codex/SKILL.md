@@ -12,14 +12,13 @@ Use the hook decision by default. Do not ask the user to choose a model unless a
 1. Read the latest developer context block beginning with `ADAPTIVE_ROUTER_FOR_CODEX`.
 2. Respect an explicit override over heuristic scoring.
 3. If `DIRECT=true`, handle the turn in the root thread.
-4. If `DIRECT=false`, create one visible Codex subagent whose name starts with the provided `SUBAGENT_PREFIX`.
-5. Tell that wrapper to post a short start update, call the `adaptive-router-for-codex` MCP tool `run_routed_task` exactly once, and return its result.
-6. Pass the selected route, complete task context, constraints, current working directory, and safe sandbox level. Tell the wrapper not to spawn another subagent or redo the worker task.
-7. Wait for the wrapper and return its user-ready result with minimal rewriting.
-8. If visible subagent creation is unavailable, call the MCP tool directly as a compatibility fallback.
-9. If the worker fails, continue with the current root model without asking the user. Preserve all verification and permission boundaries.
+4. If `DIRECT=false`, call the `adaptive-router-for-codex` MCP tool `run_routed_task` exactly once from the root task.
+5. Pass the selected route, complete task context, constraints, current working directory, and safe sandbox level.
+6. Never create a generic or visible subagent for routing. A subagent must not call `run_routed_task` or coordinate another agent.
+7. Return the worker result with minimal rewriting.
+8. If the worker fails, continue with the current root model without asking the user. Preserve all verification and permission boundaries.
 
-Generic subagents inherit the parent model. The visible subagent is a tracking wrapper; the MCP worker supplies the pinned model.
+The MCP worker supplies the pinned model and starts with Codex multi-agent tools disabled.
 
 ## Route ladder
 

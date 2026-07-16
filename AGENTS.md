@@ -3,7 +3,8 @@
 ## Scope
 
 - Keep public code and documentation English-only.
-- Preserve the route names, model mappings, deterministic thresholds, recursion guard, and visible wrapper-subagent contract.
+- Preserve the route names, model mappings, deterministic thresholds, recursion guard, and root-only routed-worker contract.
+- Never route through a generic or visible subagent. The root task calls the MCP worker directly, and routed workers must have multi-agent tools disabled.
 - Treat `BRAIN.md`, `tasks/`, dependency folders, state, logs, and credentials as local-only.
 - Do not add OpenAI affiliation or endorsement claims. This is an unofficial community plugin.
 - Do not run Git state-changing commands or remote mutations without exact, current user permission.

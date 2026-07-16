@@ -120,8 +120,6 @@ export function decideRoute({ prompt = "", activeModel = "", previousState = nul
     score,
     reasons: reasons.length ? reasons : ["default lightweight route"],
     direct,
-    visibleSubagent: !direct,
-    subagentPrefix: `router_${route.slice("adaptive_".length)}`,
   };
 }
 
@@ -139,9 +137,9 @@ export function createStateRecord(sessionId, decision, timestamp = new Date().to
 
 export function renderSessionContext() {
   return `ADAPTIVE_ROUTER_FOR_CODEX is enabled for every turn.
-Use the latest routing decision injected by UserPromptSubmit. The root task is a coordinator; visible wrapper subagents invoke model-pinned MCP workers for delegated work.
+Use the latest routing decision injected by UserPromptSubmit. The root task is the only routing coordinator and invokes model-pinned MCP workers directly.
 Available routes: adaptive_luna, adaptive_terra, adaptive_terra_high, adaptive_sol, adaptive_sol_max, adaptive_sol_ultra.
-For a non-direct route, use the adaptive-router-for-codex MCP tool \`run_routed_task\`; do not use a generic subagent as the model selector.
+For a non-direct route, call the adaptive-router-for-codex MCP tool \`run_routed_task\` exactly once from the root task. Never create a generic or visible subagent for routing.
 Explicit controls: /luna, /terra, /terra-high, /sol, /sol-max, /sol-ultra, and /auto.
 Do not claim that the displayed root model hot-switched. The selected worker model performs the substantive task and returns its result to this conversation.`;
 }
@@ -155,17 +153,14 @@ TARGET_MODEL=${decision.model}
 REASONING_EFFORT=${decision.effort}
 SCORE=${decision.score}
 DIRECT=${decision.direct}
-VISIBLE_SUBAGENT=${decision.visibleSubagent}
-SUBAGENT_PREFIX=${decision.subagentPrefix}
 REASONS=${reasons}
 
 Required behavior for this turn:
 - Treat an explicit override as authoritative. Otherwise accept this deterministic route without asking the user.
 - If DIRECT=true, handle the request in the root thread.
-- If DIRECT=false, create one visible Codex subagent with a concise task name beginning with ${decision.subagentPrefix}. Do not call run_routed_task directly in the root task when subagent creation is available.
-- Tell the visible subagent to post a short start update, call the adaptive-router-for-codex MCP tool run_routed_task exactly once with route ${decision.route}, a complete task brief, the current working directory, and the current safe sandbox level, then return the worker result. It must not spawn another subagent or redo the worker's full task itself.
-- Wait for the visible subagent and return its user-ready result with minimal rewriting. If subagent creation is unavailable, call run_routed_task directly as a compatibility fallback.
-- A generic subagent is only the visible tracking wrapper. The MCP worker supplies the actual pinned model. Do not redo the worker's full task in the root thread.
+- If DIRECT=false, call the adaptive-router-for-codex MCP tool run_routed_task exactly once from the root task with route ${decision.route}, a complete task brief, the current working directory, and the current safe sandbox level.
+- Never create a generic or visible subagent for adaptive routing. A subagent must not invoke run_routed_task or coordinate another agent.
+- Return the worker's user-ready result with minimal rewriting. Do not redo the worker's full task in the root thread.
 - Do not expose the score or routing metadata unless the user asks.
 - If the routed worker fails, continue with the current root model without asking the user and preserve verification and safety requirements.
 - Routing does not authorize Git mutations, destructive actions, purchases, credential changes, or external account actions.`;

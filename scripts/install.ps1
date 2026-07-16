@@ -33,7 +33,7 @@ if ($DryRun) {
     Write-Host "DRY RUN: would run npm ci --omit=dev in $pluginRoot"
     Write-Host "DRY RUN: would add or confirm marketplace $marketplaceName at $repoRoot"
     Write-Host "DRY RUN: would install and enable $selector"
-    if ($ConfigureCoordinator) { Write-Host 'DRY RUN: would back up config.toml and set gpt-5.6-luna with low effort' }
+    if ($ConfigureCoordinator) { Write-Host 'DRY RUN: would back up config.toml, set gpt-5.6-luna with low effort, and enforce agents.max_depth=1' }
     if ($LiveTest) { Write-Host 'DRY RUN: would run authenticated Luna, Terra, and Sol worker smoke tests' }
     Write-Host 'Dry run completed without changing dependencies, plugin state, or global config.'
     exit 0

@@ -38,6 +38,6 @@ State and logs contain only session ID, route, model, effort, score, reason cate
 
 If the selected worker fails or is unavailable, continue in the current root task while preserving the original safety and verification requirements. Report the fallback only when it materially affects quality, latency, or cost. Never modify account access or silently install a model.
 
-## Visible wrapper contract
+## Root-only execution contract
 
-The root model does not hot-swap. Every non-direct route creates one visible wrapper subagent when supported. The wrapper calls the MCP worker exactly once. The MCP worker starts a separate Codex execution with the route's exact model and effort, then returns the result through the wrapper.
+The root model does not hot-swap. Every non-direct route calls the MCP worker exactly once from the root task without creating a wrapper subagent. The MCP worker starts a separate Codex execution with the route's exact model and effort, disables multi-agent tools, and returns the result directly to the root task.

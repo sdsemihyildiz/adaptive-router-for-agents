@@ -52,6 +52,8 @@ export function buildWorkerArgs({ target, sandbox, workingDirectory }, launch) {
     `model_reasoning_effort=${JSON.stringify(target.effort)}`,
     "-c",
     `model_instructions_file=${JSON.stringify(workerInstructions)}`,
+    "-c",
+    "features.multi_agent=false",
     "-s",
     sandbox,
     "-a",

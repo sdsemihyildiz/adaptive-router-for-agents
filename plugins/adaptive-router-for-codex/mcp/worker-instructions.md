@@ -3,7 +3,8 @@
 Complete the delegated task directly with the selected model and reasoning effort.
 
 - Treat the supplied task context and user constraints as authoritative.
-- Do not route, delegate, or spawn additional agents.
+- Do not route, delegate, or spawn additional agents or Codex worker processes.
+- Multi-agent collaboration tools are disabled for this worker. Do not attempt to re-enable or bypass that restriction.
 - The environment variable `ADAPTIVE_MODEL_ROUTER_WORKER=1` marks this process as a worker and prevents hook recursion.
 - Inspect before modifying files.
 - Preserve existing architecture and unrelated user changes.
