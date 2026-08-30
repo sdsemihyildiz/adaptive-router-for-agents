@@ -66,10 +66,11 @@ if ($matches.Count -eq 1) {
 Invoke-Checked "Install or refresh $selector" { & claude plugin install $selector }
 Invoke-Checked 'Run strict structural diagnostics' { & node (Join-Path $pluginRoot 'scripts\diagnose.mjs') --strict }
 
-$pluginsJson = & claude plugin list --available --json | Out-String
+$pluginsJson = & claude plugin list --json | Out-String
 if ($LASTEXITCODE -ne 0) { throw 'Could not verify installed Claude Code plugins.' }
-$entries = $pluginsJson | ConvertFrom-Json
-$installed = $entries | Where-Object { "$($_.name)@$($_.marketplace)" -eq $selector -or $_.pluginId -eq $selector }
+$value = $pluginsJson | ConvertFrom-Json
+$entries = if ($value.installed) { $value.installed } else { $value }
+$installed = $entries | Where-Object { $_.id -eq $selector }
 if (-not $installed) { throw "$selector was not found after install. Verify with: claude plugin list --json" }
 if ($installed.enabled -eq $false) { throw "$selector is installed but not enabled. Run: claude plugin enable $selector" }
 

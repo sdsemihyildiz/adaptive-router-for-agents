@@ -73,12 +73,12 @@ claude plugin install "$selector"
 printf '%s\n' '==> Run strict structural diagnostics'
 node "$plugin_root/scripts/diagnose.mjs" --strict
 
-plugins_json="$(claude plugin list --available --json)"
+plugins_json="$(claude plugin list --json)"
 printf '%s' "$plugins_json" | node -e '
 const fs = require("node:fs");
 const value = JSON.parse(fs.readFileSync(0, "utf8"));
-const entries = Array.isArray(value) ? value : (value.installed ?? value.plugins ?? []);
-const plugin = entries.find((item) => (item.pluginId ?? `${item.name}@${item.marketplace}`) === "adaptive-router-for-claude@adaptive-router-for-claude");
+const entries = Array.isArray(value) ? value : (value.installed ?? []);
+const plugin = entries.find((item) => item.id === "adaptive-router-for-claude@adaptive-router-for-claude");
 if (!plugin) throw new Error("Plugin was not found after install. Verify with: claude plugin list --json");
 if (plugin.enabled === false) throw new Error("Plugin is installed but not enabled. Run: claude plugin enable adaptive-router-for-claude@adaptive-router-for-claude");
 '
