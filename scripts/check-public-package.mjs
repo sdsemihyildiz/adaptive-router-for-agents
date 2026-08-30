@@ -4,7 +4,10 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
-const pluginRoot = join(repoRoot, "plugins", "adaptive-router-for-codex");
+const plugins = [
+  { root: join(repoRoot, "plugins", "adaptive-router-for-codex"), manifest: ".codex-plugin/plugin.json" },
+  { root: join(repoRoot, "plugins", "adaptive-router-for-claude"), manifest: ".claude-plugin/plugin.json" },
+];
 const ignoredDirectories = new Set([".git", ".npm-cache", "node_modules", "tasks", ".plugin-data", "coverage"]);
 const ignoredFiles = new Set(["BRAIN.md"]);
 const textExtensions = new Set([".md", ".json", ".mjs", ".js", ".yaml", ".yml", ".ps1", ".sh", ".txt", ".toml", ""]);
@@ -49,23 +52,26 @@ if (!license.startsWith("MIT License") || !license.includes("sdsemihyildiz")) fa
 
 const npmCli = process.env.npm_execpath;
 if (!npmCli) throw new Error("Run this check through npm so npm_execpath is available.");
-const packed = spawnSync(process.execPath, [npmCli, "pack", "--dry-run", "--json"], {
-  cwd: pluginRoot,
-  encoding: "utf8",
-  env: { ...process.env, npm_config_cache: join(repoRoot, ".npm-cache") },
-  shell: false,
-});
-if (packed.status !== 0) {
-  failures.push(`npm pack dry run failed: ${packed.error?.message || packed.stderr?.trim() || `exit ${packed.status}`}`);
-} else {
+for (const { root, manifest } of plugins) {
+  const packed = spawnSync(process.execPath, [npmCli, "pack", "--dry-run", "--json"], {
+    cwd: root,
+    encoding: "utf8",
+    env: { ...process.env, npm_config_cache: join(repoRoot, ".npm-cache") },
+    shell: false,
+  });
+  const pluginName = relative(repoRoot, root).replaceAll("\\", "/");
+  if (packed.status !== 0) {
+    failures.push(`${pluginName}: npm pack dry run failed: ${packed.error?.message || packed.stderr?.trim() || `exit ${packed.status}`}`);
+    continue;
+  }
   const report = JSON.parse(packed.stdout);
   const packageReport = Array.isArray(report) ? report[0] : Object.values(report)[0];
   const names = packageReport?.files?.map((item) => item.path) ?? [];
-  if (!names.includes(".codex-plugin/plugin.json")) failures.push("npm package: plugin manifest missing");
+  if (!names.includes(manifest)) failures.push(`${pluginName}: npm package: plugin manifest missing`);
   if (names.some((name) => name.includes("node_modules") || name.startsWith("test/") || name.includes("BRAIN.md") || name.startsWith("tasks/"))) {
-    failures.push("npm package: local or dependency files are included");
+    failures.push(`${pluginName}: npm package: local or dependency files are included`);
   }
-  console.log(`PASS: npm package contains ${names.length} public plugin files and excludes node_modules`);
+  console.log(`PASS: ${pluginName} npm package contains ${names.length} public plugin files and excludes node_modules`);
 }
 
 if (failures.length) {

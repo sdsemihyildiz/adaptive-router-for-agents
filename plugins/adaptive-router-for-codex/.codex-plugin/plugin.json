@@ -6,8 +6,8 @@
     "name": "sdsemihyildiz",
     "url": "https://github.com/sdsemihyildiz"
   },
-  "homepage": "https://github.com/sdsemihyildiz/adaptive-router-for-codex#readme",
-  "repository": "https://github.com/sdsemihyildiz/adaptive-router-for-codex",
+  "homepage": "https://github.com/sdsemihyildiz/adaptive-router-for-agents#readme",
+  "repository": "https://github.com/sdsemihyildiz/adaptive-router-for-agents",
   "license": "MIT",
   "keywords": [
     "codex",
@@ -28,9 +28,9 @@
     "capabilities": [
       "Interactive"
     ],
-    "websiteURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex",
-    "privacyPolicyURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex#privacy",
-    "termsOfServiceURL": "https://github.com/sdsemihyildiz/adaptive-router-for-codex/blob/main/LICENSE",
+    "websiteURL": "https://github.com/sdsemihyildiz/adaptive-router-for-agents",
+    "privacyPolicyURL": "https://github.com/sdsemihyildiz/adaptive-router-for-agents#privacy",
+    "termsOfServiceURL": "https://github.com/sdsemihyildiz/adaptive-router-for-agents/blob/main/LICENSE",
     "defaultPrompt": [
       "Route this task automatically.",
       "Explain which model tier this task needs.",

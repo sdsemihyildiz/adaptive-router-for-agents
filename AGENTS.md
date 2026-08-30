@@ -1,4 +1,6 @@
-# AGENTS.md - Adaptive Router for Codex
+# AGENTS.md - Adaptive Router for Agents (Codex plugin)
+
+Claude Code reads `CLAUDE.md`, not this file, for its own project memory. This file covers the Codex plugin; shared repo-wide rules (English-only docs, no unsolicited Git mutations, the root-only routed-worker contract) apply to both plugins in this repository.
 
 ## Scope
 
@@ -11,13 +13,15 @@
 
 ## Architecture
 
-- Repo marketplace: `.agents/plugins/marketplace.json`
+- Repo marketplace (Codex): `.agents/plugins/marketplace.json`
+- Repo marketplace (Claude Code): `.claude-plugin/marketplace.json`
 - Plugin root: `plugins/adaptive-router-for-codex/`
 - Cross-platform hook: `plugins/adaptive-router-for-codex/hooks/router.mjs`
 - Routing core: `plugins/adaptive-router-for-codex/lib/routing.mjs`
 - MCP worker: `plugins/adaptive-router-for-codex/mcp/server.mjs`
 - Tests: `plugins/adaptive-router-for-codex/test/`
 - Installers: `scripts/install.ps1` and `scripts/install.sh`
+- The Claude Code plugin (`plugins/adaptive-router-for-claude/`) mirrors this same structure; see `CLAUDE.md` for its specifics.
 
 ## Commands
 

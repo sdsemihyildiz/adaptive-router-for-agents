@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/router.mjs\" SessionStart",
+            "commandWindows": "node \"${CLAUDE_PLUGIN_ROOT}\\hooks\\router.mjs\" SessionStart",
+            "timeout": 10,
+            "statusMessage": "Loading adaptive model routing"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/router.mjs\" UserPromptSubmit",
+            "commandWindows": "node \"${CLAUDE_PLUGIN_ROOT}\\hooks\\router.mjs\" UserPromptSubmit",
+            "timeout": 10,
+            "statusMessage": "Selecting the Claude worker tier"
+          }
+        ]
+      }
+    ]
+  }
+}

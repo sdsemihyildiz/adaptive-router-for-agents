@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: ${{ matrix.os }} / Node ${{ matrix.node }}
+  codex-plugin:
+    name: Codex plugin / ${{ matrix.os }} / Node ${{ matrix.node }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -31,6 +31,48 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
           cache-dependency-path: plugins/adaptive-router-for-codex/package-lock.json
+
+      - name: Clean install
+        run: npm ci
+
+      - name: Syntax checks
+        run: npm run syntax
+
+      - name: Unit and integration tests
+        run: npm test
+
+      - name: Manifest and path validation
+        run: npm run validate
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
+
+      - name: License, secret, privacy, and package-content checks
+        run: npm run package:check
+
+  claude-plugin:
+    name: Claude Code plugin / ${{ matrix.os }} / Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        node: [22, 24]
+
+    defaults:
+      run:
+        working-directory: plugins/adaptive-router-for-claude
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: plugins/adaptive-router-for-claude/package-lock.json
 
       - name: Clean install
         run: npm ci

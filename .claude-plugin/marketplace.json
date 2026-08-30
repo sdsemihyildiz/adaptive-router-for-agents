@@ -1,0 +1,15 @@
+{
+  "name": "adaptive-router-for-claude",
+  "owner": {
+    "name": "sdsemihyildiz",
+    "url": "https://github.com/sdsemihyildiz"
+  },
+  "plugins": [
+    {
+      "name": "adaptive-router-for-claude",
+      "source": "./plugins/adaptive-router-for-claude",
+      "description": "Deterministic local routing across Claude Haiku, Sonnet, Opus, and Fable workers.",
+      "category": "Productivity"
+    }
+  ]
+}

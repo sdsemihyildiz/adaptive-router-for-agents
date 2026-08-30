@@ -1,7 +1,7 @@
 {
-  "name": "adaptive-router-for-codex",
+  "name": "adaptive-router-for-claude",
   "version": "0.1.0",
-  "description": "Unofficial community plugin that routes Codex work across GPT-5.6 worker tiers.",
+  "description": "Unofficial community plugin that routes Claude Code work across Haiku, Sonnet, Opus, and Fable worker tiers.",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "node": ">=22"
   },
   "files": [
-    ".codex-plugin/",
+    ".claude-plugin/",
     ".mcp.json",
     "hooks/",
     "lib/",
@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
-    "@openai/codex": "0.144.1",
     "zod": "4.4.3"
   }
 }

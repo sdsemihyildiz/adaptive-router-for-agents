@@ -1,0 +1,21 @@
+{
+  "name": "adaptive-router-for-claude",
+  "displayName": "Adaptive Router for Claude Code",
+  "version": "0.1.0",
+  "description": "Deterministic local routing across Claude Haiku, Sonnet, Opus, and Fable workers for Claude Code.",
+  "author": {
+    "name": "sdsemihyildiz",
+    "url": "https://github.com/sdsemihyildiz"
+  },
+  "homepage": "https://github.com/sdsemihyildiz/adaptive-router-for-agents#readme",
+  "repository": "https://github.com/sdsemihyildiz/adaptive-router-for-agents",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "routing",
+    "models",
+    "claude",
+    "subagents",
+    "automation"
+  ]
+}
