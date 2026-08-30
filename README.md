@@ -236,6 +236,7 @@ Adaptive Router for Claude Code chooses a Claude model tier for each Claude Code
 
 - A working, authenticated Claude Code install (the `claude` CLI must be on `PATH`) with access to the configured Haiku, Sonnet, Opus, and Fable models.
 - Node.js 22 or newer and npm.
+- An `ANTHROPIC_API_KEY` environment variable set in the shell profile that launches Claude Code (for example `~/.zshrc` or `~/.bashrc`). The routed worker always runs with `--bare`, and `--bare` mode only ever authenticates via `ANTHROPIC_API_KEY` or an `apiKeyHelper`; it never reads your interactive OAuth/subscription session or OS keychain, so a normal `claude` (or `/login`) sign-in alone is not enough for routed (non-direct) turns. Export the key once in your shell profile and every new session inherits it automatically. This is separate, metered API billing from a Claude subscription.
 
 There is no bundled or downloaded CLI for this plugin: it invokes the `claude` binary you already have installed. The exact model names must be available to your account. If a selected worker is unavailable, the coordinator continues with the current root model and reports a material fallback.
 
@@ -384,6 +385,10 @@ Remove or rename the conflicting marketplace only after verifying it is not need
 #### Model unavailable or authentication fails
 
 Confirm Claude Code authentication and model access, then run `npm run test:live` from the plugin directory. Live tests are intentionally excluded from CI.
+
+#### `Not logged in · Please run /login`
+
+This comes from the routed worker, not the root session, even if you are already logged in interactively. The worker always runs with `--bare`, which only accepts `ANTHROPIC_API_KEY` or an `apiKeyHelper` and never reads OAuth/keychain state, so `claude auth login` (or `/login`) in the root session does not carry over. Export `ANTHROPIC_API_KEY` in the shell profile that launches Claude Code and start a new session; see [Prerequisites](#prerequisites).
 
 #### Diagnose structure
 
