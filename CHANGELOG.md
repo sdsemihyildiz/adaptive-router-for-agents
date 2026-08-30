@@ -11,6 +11,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Claude Code routed-worker failures now append a diagnostic hint when the underlying error is an auth failure, explaining that `--bare` mode requires `ANTHROPIC_API_KEY` (or an `apiKeyHelper`) and does not read the root session's interactive OAuth/subscription/keychain state.
 - Repository renamed to `adaptive-router-for-agents` to reflect that it now hosts plugins for more than one coding agent. The Codex plugin keeps its own name, `adaptive-router-for-codex`, unchanged.
 - Removed the visible wrapper-subagent layer; non-direct routes now call the MCP worker directly from the root task.
 - Disabled Codex multi-agent tools inside routed workers and configured the optional coordinator for `agents.max_depth = 1`.

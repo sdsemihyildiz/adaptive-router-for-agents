@@ -55,6 +55,16 @@ function looksLikeUnsupportedEffort(stderr) {
   return /unknown option|unrecognized|unexpected argument|--effort/i.test(stderr);
 }
 
+function looksLikeNotLoggedIn(text) {
+  return /not logged in/i.test(text);
+}
+
+const NOT_LOGGED_IN_HINT =
+  "The routed worker runs with --bare, which only authenticates via ANTHROPIC_API_KEY " +
+  "or an apiKeyHelper and never reads interactive OAuth/subscription/keychain state, so " +
+  "a root-session 'claude'/'/login' sign-in does not carry over. Export ANTHROPIC_API_KEY " +
+  "in the shell profile that launches Claude Code and start a new session.";
+
 export async function runWorker(input, options = {}) {
   const target = routeConfig[input.route];
   if (!target) throw new Error(`Unknown route: ${input.route}`);
@@ -135,7 +145,11 @@ export async function runWorker(input, options = {}) {
             return;
           }
           const detail = failureDetail ?? stderr.trim().split(/\r?\n/).slice(-8).join("\n") ?? `exit code ${code}`;
-          reject(new Error(`Routed worker failed: ${detail || `exit code ${code}`}`));
+          const resolvedDetail = detail || `exit code ${code}`;
+          const message = looksLikeNotLoggedIn(resolvedDetail)
+            ? `Routed worker failed: ${resolvedDetail} (${NOT_LOGGED_IN_HINT})`
+            : `Routed worker failed: ${resolvedDetail}`;
+          reject(new Error(message));
           return;
         }
 
