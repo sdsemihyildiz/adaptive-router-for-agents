@@ -21,7 +21,7 @@ export function createServer(runWorkerImpl = runWorker) {
   server.registerTool(
     "run_routed_task",
     {
-      title: "Run task with selected GPT-5.6 tier",
+      title: "Run task with selected model tier",
       description: "Run a complete task through the model and reasoning tier selected by Adaptive Router for Codex. Invoke it exactly once from the root task for normal non-direct routes; never invoke it from a subagent.",
       inputSchema: {
         route: z.enum(Object.keys(routeConfig)),

@@ -18,9 +18,11 @@ test("routing thresholds map to the approved ladder", () => {
   assert.equal(routeForScore(4), "adaptive_terra");
   assert.equal(routeForScore(5), "adaptive_terra_high");
   assert.equal(routeForScore(6), "adaptive_terra_high");
-  assert.equal(routeForScore(7), "adaptive_sol");
-  assert.equal(routeForScore(9), "adaptive_sol");
-  assert.equal(routeForScore(10), "adaptive_sol_max");
+  assert.equal(routeForScore(7), "adaptive_astra");
+  assert.equal(routeForScore(8), "adaptive_astra");
+  assert.equal(routeForScore(9), "adaptive_astra_xhigh");
+  assert.equal(routeForScore(10), "adaptive_astra_xhigh");
+  assert.equal(routeForScore(11), "adaptive_astra_max");
 });
 
 test("Turkish normalization preserves routing keywords", () => {
@@ -33,10 +35,25 @@ test("leading explicit overrides map to exact model and effort", () => {
     ["/luna hello", "adaptive_luna", "gpt-5.6-luna", "low"],
     ["/terra implement it", "adaptive_terra", "gpt-5.6-terra", "medium"],
     ["/terra-high investigate", "adaptive_terra_high", "gpt-5.6-terra", "high"],
-    ["/sol analyze", "adaptive_sol", "gpt-5.6-sol", "high"],
-    ["/sol-max analyze", "adaptive_sol_max", "gpt-5.6-sol", "max"],
-    ["/sol-ultra analyze", "adaptive_sol_ultra", "gpt-5.6-sol", "ultra"],
-    ["/ultra analyze", "adaptive_sol_ultra", "gpt-5.6-sol", "ultra"],
+    ["/astra analyze", "adaptive_astra", "gpt-6-astra", "high"],
+    ["/astra-xhigh analyze", "adaptive_astra_xhigh", "gpt-6-astra", "xhigh"],
+    ["/astra-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
+    ["/astra-ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
+  ];
+  for (const [prompt, route, model, effort] of cases) {
+    const decision = decideRoute({ prompt });
+    assert.equal(decision.route, route);
+    assert.equal(decision.model, model);
+    assert.equal(decision.effort, effort);
+  }
+});
+
+test("deprecated Sol controls resolve to the matching Astra route", () => {
+  const cases = [
+    ["/sol analyze", "adaptive_astra", "gpt-6-astra", "high"],
+    ["/sol-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
+    ["/sol-ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
+    ["/ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
   ];
   for (const [prompt, route, model, effort] of cases) {
     const decision = decideRoute({ prompt });
@@ -47,13 +64,13 @@ test("leading explicit overrides map to exact model and effort", () => {
 });
 
 test("automatic mode scores instead of inheriting", () => {
-  const previousState = createStateRecord("session", decideRoute({ prompt: "/sol-max hard task" }));
+  const previousState = createStateRecord("session", decideRoute({ prompt: "/astra-max hard task" }));
   assert.equal(decideRoute({ prompt: "/auto continue", previousState }).route, "adaptive_luna");
 });
 
 test("dependent continuation inherits but status does not", () => {
-  const previousState = createStateRecord("session", decideRoute({ prompt: "/sol-max hard task" }));
-  assert.equal(decideRoute({ prompt: "devam et", previousState }).route, "adaptive_sol_max");
+  const previousState = createStateRecord("session", decideRoute({ prompt: "/astra-max hard task" }));
+  assert.equal(decideRoute({ prompt: "devam et", previousState }).route, "adaptive_astra_max");
   assert.equal(decideRoute({ prompt: "Ne durumdayız?", previousState }).route, "adaptive_luna");
 });
 

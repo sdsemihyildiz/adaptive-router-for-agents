@@ -6,7 +6,7 @@ Adaptive Router for Agents chooses a worker model tier for each coding-agent tur
 
 This repository hosts two independent plugins that share the same routing design and scoring logic, adapted to each agent's own plugin, hook, and CLI conventions:
 
-- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-5.6 Luna, Terra, and Sol workers.
+- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-5.6 Luna, GPT-5.6 Terra, and GPT-6 Astra workers.
 - **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku, Sonnet, Opus, and Fable workers.
 
 Each plugin installs, updates, and tests independently. Installing one does not require or affect the other.
@@ -15,12 +15,12 @@ Each plugin installs, updates, and tests independently. Installing one does not 
 
 ## Codex
 
-Adaptive Router for Codex chooses a GPT-5.6 worker tier for each Codex turn using deterministic local scoring, explicit slash controls, and conversation continuity. For substantive routes, the root task calls a local MCP worker that starts a model-pinned Codex execution and returns its result.
+Adaptive Router for Codex chooses a worker tier for each Codex turn using deterministic local scoring, explicit slash controls, and conversation continuity. For substantive routes, the root task calls a local MCP worker that starts a model-pinned Codex execution and returns its result.
 
 ### Features
 
-- Deterministic Luna, Terra, Terra High, Sol, Sol Max, and explicit-only Sol Ultra routes.
-- `/luna`, `/terra`, `/terra-high`, `/sol`, `/sol-max`, `/sol-ultra`, and `/auto` controls.
+- Deterministic Luna, Terra, Terra High, Astra, Astra XHigh, Astra Max, and explicit-only Astra Ultra routes.
+- `/luna`, `/terra`, `/terra-high`, `/astra`, `/astra-xhigh`, `/astra-max`, `/astra-ultra`, and `/auto` controls, plus deprecated `/sol`, `/sol-max`, `/sol-ultra`, and `/ultra` aliases.
 - Turkish-aware normalization and conservative continuation inheritance.
 - Root-only routing with no wrapper or nested subagent layer.
 - Cross-platform Node ESM hook for Windows, macOS, and Linux.
@@ -85,7 +85,7 @@ After installation, restart the Codex app or start a new task. The first time th
 |---|---|---|
 | `-DryRun` | `--dry-run` | Validate and print intended actions without installing or changing configuration. |
 | `-ConfigureCoordinator` | `--configure-coordinator` | Back up `~/.codex/config.toml`, set the root coordinator to `gpt-5.6-luna` with low effort, and enforce `agents.max_depth = 1`. |
-| `-LiveTest` | `--live-test` | Run authenticated Luna, Terra, and Sol worker smoke tests after installation. |
+| `-LiveTest` | `--live-test` | Run authenticated Luna, Terra, and Astra worker smoke tests after installation. |
 
 Examples:
 
@@ -126,12 +126,15 @@ If coordinator configuration was enabled, restore the timestamped backup printed
 | `/luna` | `gpt-5.6-luna` | low |
 | `/terra` | `gpt-5.6-terra` | medium |
 | `/terra-high` | `gpt-5.6-terra` | high |
-| `/sol` | `gpt-5.6-sol` | high |
-| `/sol-max` | `gpt-5.6-sol` | max |
-| `/sol-ultra` or `/ultra` | `gpt-5.6-sol` | ultra |
+| `/astra` | `gpt-6-astra` | high |
+| `/astra-xhigh` | `gpt-6-astra` | xhigh |
+| `/astra-max` | `gpt-6-astra` | max |
+| `/astra-ultra` | `gpt-6-astra` | ultra |
 | `/auto` | Deterministic scoring | route-dependent |
 
-Sol Ultra is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
+`gpt-6-astra` replaced `gpt-5.6-sol` as the top tier. The earlier controls remain usable as deprecated aliases: `/sol` maps to `/astra`, `/sol-max` to `/astra-max`, and `/sol-ultra` or `/ultra` to `/astra-ultra`.
+
+Astra Ultra is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
 
 ### Root-only Routed Execution
 
@@ -223,8 +226,8 @@ Adaptive Router for Claude Code chooses a Claude model tier for each Claude Code
 
 ### Features
 
-- Deterministic Haiku, Sonnet, Sonnet High, Opus, Opus Max, and explicit-only Fable routes.
-- `/haiku`, `/sonnet`, `/sonnet-high`, `/opus`, `/opus-max`, `/fable`, and `/auto` controls.
+- Deterministic Haiku, Sonnet, Sonnet High, Opus, Opus XHigh, Opus Max, and explicit-only Fable routes.
+- `/haiku`, `/sonnet`, `/sonnet-high`, `/opus`, `/opus-xhigh`, `/opus-max`, `/fable`, and `/auto` controls.
 - Turkish-aware normalization and conservative continuation inheritance.
 - Root-only routing with no wrapper or nested subagent layer.
 - Cross-platform Node ESM hook for Windows, macOS, and Linux.
@@ -316,12 +319,13 @@ Uninstall does not remove the repository automatically.
 
 | Control | Model | Effort |
 |---|---|---|
-| `/haiku` | `claude-haiku-4-5-20251001` | low |
+| `/haiku` | `claude-haiku-4-5` | low |
 | `/sonnet` | `claude-sonnet-5` | medium |
 | `/sonnet-high` | `claude-sonnet-5` | high |
 | `/opus` | `claude-opus-5` | high |
+| `/opus-xhigh` | `claude-opus-5` | xhigh |
 | `/opus-max` | `claude-opus-5` | max |
-| `/fable` | `claude-fable-5` | max |
+| `/fable` | `claude-fable-5-1` | max |
 | `/auto` | Deterministic scoring | route-dependent |
 
 Fable is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.

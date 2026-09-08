@@ -1,6 +1,6 @@
 ---
 name: adaptive-router-for-claude
-description: Route every Claude Code turn to the appropriate model tier using the hook-provided ADAPTIVE_ROUTER_FOR_CLAUDE decision and conversation continuity. Use implicitly when this plugin is enabled, especially for choosing between Haiku, Sonnet, Opus, and Fable workers; use explicitly for /haiku, /sonnet, /sonnet-high, /opus, /opus-max, /fable, /auto, route explanations, and routing behavior changes.
+description: Route every Claude Code turn to the appropriate model tier using the hook-provided ADAPTIVE_ROUTER_FOR_CLAUDE decision and conversation continuity. Use implicitly when this plugin is enabled, especially for choosing between Haiku, Sonnet, Opus, and Fable workers; use explicitly for /haiku, /sonnet, /sonnet-high, /opus, /opus-xhigh, /opus-max, /fable, /auto, route explanations, and routing behavior changes.
 ---
 
 # Adaptive Router for Claude Code
@@ -26,6 +26,7 @@ The MCP worker supplies the pinned model and effort, and runs with `--bare` and 
 - Use `adaptive_sonnet` for normal coding, debugging, document work, analysis, and implementation.
 - Use `adaptive_sonnet_high` for multi-file work, difficult debugging, detailed comparisons, or edge-case-heavy reasoning.
 - Use `adaptive_opus` for architecture, security, migration, ambiguous root-cause, high-stakes, and broad research work.
+- Use `adaptive_opus_xhigh` for sustained agentic work that spans many files or tool calls.
 - Use `adaptive_opus_max` only when exceptionally difficult correctness-sensitive work benefits from maximum reasoning.
 - Use `adaptive_fable` only for explicit `/fable`. Never select it automatically.
 
@@ -33,7 +34,7 @@ The MCP worker supplies the pinned model and effort, and runs with `--bare` and 
 
 - Inherit the previous route for short dependent follow-ups such as "continue" or "fix it".
 - Do not inherit for greetings, status-only turns, or explicit controls.
-- Recognize leading `/haiku`, `/sonnet`, `/sonnet-high`, `/opus`, `/opus-max`, `/fable`, and `/auto` controls.
+- Recognize leading `/haiku`, `/sonnet`, `/sonnet-high`, `/opus`, `/opus-xhigh`, `/opus-max`, `/fable`, and `/auto` controls.
 - Treat `/auto` as deterministic scoring for the current turn.
 - Explain the tier only when asked or when a material fallback occurs.
 

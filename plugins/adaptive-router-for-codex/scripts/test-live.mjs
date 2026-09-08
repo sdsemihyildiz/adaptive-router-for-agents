@@ -16,7 +16,7 @@ try {
   const checks = [
     { route: "adaptive_luna", model: "gpt-5.6-luna", effort: "low" },
     { route: "adaptive_terra", model: "gpt-5.6-terra", effort: "medium" },
-    { route: "adaptive_sol", model: "gpt-5.6-sol", effort: "high" },
+    { route: "adaptive_astra", model: "gpt-6-astra", effort: "high" },
   ];
 
   for (const check of checks) {

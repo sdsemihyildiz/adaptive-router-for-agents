@@ -98,7 +98,7 @@ test("worker retries once without --effort when the flag is unsupported", async 
       { route: "adaptive_haiku", task: "safe task", cwd: pluginRoot, sandbox: "read-only", timeout_seconds: 30 },
       { claudeLaunchImpl: () => ({ command: process.execPath, prefixArgs: [fixture] }) },
     );
-    assert.deepEqual(result, { text: "fake worker ok without effort", model: "claude-haiku-4-5-20251001", effort: "low" });
+    assert.deepEqual(result, { text: "fake worker ok without effort", model: "claude-haiku-4-5", effort: "low" });
   } finally {
     if (oldMode === undefined) delete process.env.ADAPTIVE_ROUTER_FAKE_MODE;
     else process.env.ADAPTIVE_ROUTER_FAKE_MODE = oldMode;

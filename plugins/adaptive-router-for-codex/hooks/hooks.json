@@ -22,7 +22,7 @@
             "command": "node \"${PLUGIN_ROOT}/hooks/router.mjs\" UserPromptSubmit",
             "commandWindows": "node \"${PLUGIN_ROOT}\\hooks\\router.mjs\" UserPromptSubmit",
             "timeout": 10,
-            "statusMessage": "Selecting the GPT-5.6 worker"
+            "statusMessage": "Selecting the routed worker"
           }
         ]
       }

@@ -40,10 +40,10 @@ test("structured success output includes exact model and effort", () => {
 test("worker arguments use separate values and never include task text", () => {
   const workingDirectory = validateWorkingDirectory(pluginRoot);
   const args = buildWorkerArgs(
-    { target: { model: "gpt-5.6-sol", effort: "max" }, sandbox: "workspace-write", workingDirectory },
+    { target: { model: "gpt-6-astra", effort: "max" }, sandbox: "workspace-write", workingDirectory },
     { prefixArgs: ["codex.js"] },
   );
-  assert.equal(args.includes("gpt-5.6-sol"), true);
+  assert.equal(args.includes("gpt-6-astra"), true);
   assert.equal(args.includes("workspace-write"), true);
   assert.equal(args.includes("never"), true);
   assert.equal(args.includes("features.multi_agent=false"), true);

@@ -7,11 +7,14 @@
 | Explicit `/luna`, or score <= 1 | `adaptive_luna` | `gpt-5.6-luna` | low | Short, routine, latency-sensitive work |
 | Explicit `/terra`, or score 2-4 | `adaptive_terra` | `gpt-5.6-terra` | medium | Normal professional and coding work |
 | Explicit `/terra-high`, or score 5-6 | `adaptive_terra_high` | `gpt-5.6-terra` | high | Complex implementation and debugging |
-| Explicit `/sol`, or score 7-9 | `adaptive_sol` | `gpt-5.6-sol` | high | Ambiguous, high-risk, long-horizon work |
-| Explicit `/sol-max`, or score >= 10 | `adaptive_sol_max` | `gpt-5.6-sol` | max | The hardest correctness-sensitive work |
-| Explicit `/sol-ultra` or `/ultra` only | `adaptive_sol_ultra` | `gpt-5.6-sol` | ultra | User-requested maximum agentic reasoning |
+| Explicit `/astra`, or score 7-8 | `adaptive_astra` | `gpt-6-astra` | high | Ambiguous, high-risk, long-horizon work |
+| Explicit `/astra-xhigh`, or score 9-10 | `adaptive_astra_xhigh` | `gpt-6-astra` | xhigh | Sustained agentic and multi-file coding work |
+| Explicit `/astra-max`, or score >= 11 | `adaptive_astra_max` | `gpt-6-astra` | max | The hardest correctness-sensitive work |
+| Explicit `/astra-ultra` only | `adaptive_astra_ultra` | `gpt-6-astra` | ultra | User-requested maximum agentic reasoning |
 
 `/auto` ignores manual selection for the current turn and returns to scoring.
+
+`gpt-6-astra` replaced `gpt-5.6-sol` as the top tier. The former controls stay usable as deprecated aliases: `/sol` resolves to `adaptive_astra`, `/sol-max` to `adaptive_astra_max`, and `/sol-ultra` or `/ultra` to `adaptive_astra_ultra`. Prefer the `astra` names in new documentation and prompts.
 
 ## Scoring signals
 

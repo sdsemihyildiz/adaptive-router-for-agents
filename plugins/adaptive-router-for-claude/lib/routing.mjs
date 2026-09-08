@@ -1,13 +1,24 @@
 export const routeConfig = Object.freeze({
-  adaptive_haiku: Object.freeze({ model: "claude-haiku-4-5-20251001", effort: "low" }),
+  adaptive_haiku: Object.freeze({ model: "claude-haiku-4-5", effort: "low" }),
   adaptive_sonnet: Object.freeze({ model: "claude-sonnet-5", effort: "medium" }),
   adaptive_sonnet_high: Object.freeze({ model: "claude-sonnet-5", effort: "high" }),
   adaptive_opus: Object.freeze({ model: "claude-opus-5", effort: "high" }),
+  adaptive_opus_xhigh: Object.freeze({ model: "claude-opus-5", effort: "xhigh" }),
   adaptive_opus_max: Object.freeze({ model: "claude-opus-5", effort: "max" }),
-  adaptive_fable: Object.freeze({ model: "claude-fable-5", effort: "max" }),
+  adaptive_fable: Object.freeze({ model: "claude-fable-5-1", effort: "max" }),
 });
 
 const routeNames = new Set(Object.keys(routeConfig));
+
+const controlAliases = Object.freeze({
+  haiku: "adaptive_haiku",
+  sonnet: "adaptive_sonnet",
+  "sonnet-high": "adaptive_sonnet_high",
+  opus: "adaptive_opus",
+  "opus-xhigh": "adaptive_opus_xhigh",
+  "opus-max": "adaptive_opus_max",
+  fable: "adaptive_fable",
+});
 
 export function normalizeRoutingText(value = "") {
   return String(value)
@@ -23,11 +34,13 @@ function addReason(reasons, value) {
 }
 
 export function leadingControl(prompt = "") {
-  const match = String(prompt).match(/^\s*[/@](fable|opus-max|sonnet-high|haiku|sonnet|opus|auto)(?=\s|$)/i);
+  const match = String(prompt).match(
+    /^\s*[/@](opus-xhigh|opus-max|sonnet-high|fable|haiku|sonnet|opus|auto)(?=\s|$)/i,
+  );
   if (!match) return null;
   const value = match[1].toLowerCase();
   if (value === "auto") return "auto";
-  return `adaptive_${value.replaceAll("-", "_")}`;
+  return controlAliases[value] ?? null;
 }
 
 export function isStatusOnly(prompt = "") {
@@ -44,7 +57,8 @@ export function routeForScore(score) {
   if (score <= 1) return "adaptive_haiku";
   if (score <= 4) return "adaptive_sonnet";
   if (score <= 6) return "adaptive_sonnet_high";
-  if (score <= 9) return "adaptive_opus";
+  if (score <= 8) return "adaptive_opus";
+  if (score <= 10) return "adaptive_opus_xhigh";
   return "adaptive_opus_max";
 }
 
@@ -137,9 +151,9 @@ export function createStateRecord(sessionId, decision, timestamp = new Date().to
 export function renderSessionContext() {
   return `ADAPTIVE_ROUTER_FOR_CLAUDE is enabled for every turn.
 Use the latest routing decision injected by UserPromptSubmit. The root task is the only routing coordinator and invokes model-pinned MCP workers directly.
-Available routes: adaptive_haiku, adaptive_sonnet, adaptive_sonnet_high, adaptive_opus, adaptive_opus_max, adaptive_fable.
+Available routes: adaptive_haiku, adaptive_sonnet, adaptive_sonnet_high, adaptive_opus, adaptive_opus_xhigh, adaptive_opus_max, adaptive_fable.
 For a non-direct route, call the adaptive-router-for-claude MCP tool \`run_routed_task\` exactly once from the root task. Never create a generic or visible subagent for routing.
-Explicit controls: /haiku, /sonnet, /sonnet-high, /opus, /opus-max, /fable, and /auto.
+Explicit controls: /haiku, /sonnet, /sonnet-high, /opus, /opus-xhigh, /opus-max, /fable, and /auto.
 Do not claim that the displayed root model hot-switched. The selected worker model performs the substantive task and returns its result to this conversation.`;
 }
 
