@@ -40,10 +40,10 @@ test("structured success output includes exact model and effort", () => {
 test("worker arguments pin model, effort, permission mode, and exclude Task/Agent tools", () => {
   const workingDirectory = validateWorkingDirectory(pluginRoot);
   const args = buildWorkerArgs(
-    { target: { model: "claude-opus-5", effort: "max" }, sandbox: "workspace-write", workingDirectory, task: "do the thing" },
+    { target: { model: "claude-opus-5-5", effort: "max" }, sandbox: "workspace-write", workingDirectory, task: "do the thing" },
     { prefixArgs: [] },
   );
-  assert.equal(args.includes("claude-opus-5"), true);
+  assert.equal(args.includes("claude-opus-5-5"), true);
   assert.equal(args.includes("max"), true);
   assert.equal(args.includes("acceptEdits"), true);
   assert.equal(args.at(-1), "do the thing");

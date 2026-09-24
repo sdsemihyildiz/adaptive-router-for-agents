@@ -1,7 +1,7 @@
 {
   "name": "adaptive-router-for-codex",
   "version": "0.1.0",
-  "description": "Deterministic local routing across GPT-5.6 Luna, GPT-5.6 Terra, and GPT-6 Astra workers for Codex.",
+  "description": "Deterministic local routing across GPT-6 Luna, GPT-6 Sol, and GPT-6 Astra workers for Codex.",
   "author": {
     "name": "sdsemihyildiz",
     "url": "https://github.com/sdsemihyildiz"
@@ -14,7 +14,6 @@
     "routing",
     "models",
     "gpt-6",
-    "gpt-5.6",
     "subagents",
     "automation"
   ],
@@ -23,7 +22,7 @@
   "interface": {
     "displayName": "Adaptive Router for Codex",
     "shortDescription": "Routes Codex work to the right model tier.",
-    "longDescription": "An unofficial local routing layer that scores each turn, preserves task continuity, and runs substantive work through model-pinned GPT-5.6 and GPT-6 workers with no wrapper subagents and privacy-limited state.",
+    "longDescription": "An unofficial local routing layer that scores each turn, preserves task continuity, and runs substantive work through model-pinned GPT-6 workers with no wrapper subagents and privacy-limited state.",
     "developerName": "sdsemihyildiz",
     "category": "Productivity",
     "capabilities": [

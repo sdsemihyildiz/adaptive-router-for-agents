@@ -16,7 +16,7 @@ try {
   const checks = [
     { route: "adaptive_haiku", model: "claude-haiku-4-5", effort: "low" },
     { route: "adaptive_sonnet", model: "claude-sonnet-5", effort: "medium" },
-    { route: "adaptive_opus", model: "claude-opus-5", effort: "high" },
+    { route: "adaptive_opus", model: "claude-opus-5-5", effort: "high" },
   ];
 
   for (const check of checks) {

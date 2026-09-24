@@ -1,6 +1,6 @@
 ---
 name: adaptive-router-for-codex
-description: Route every Codex turn to the appropriate worker tier using the hook-provided ADAPTIVE_ROUTER_FOR_CODEX decision and conversation continuity. Use implicitly when this plugin is enabled, especially for choosing between Luna, Terra, and Astra workers; use explicitly for /luna, /terra, /terra-high, /astra, /astra-xhigh, /astra-max, /astra-ultra, /auto, route explanations, and routing behavior changes.
+description: Route every Codex turn to the appropriate worker tier using the hook-provided ADAPTIVE_ROUTER_FOR_CODEX decision and conversation continuity. Use implicitly when this plugin is enabled, especially for choosing between Luna, Sol, and Astra workers; use explicitly for /luna, /sol, /sol-high, /astra, /astra-xhigh, /astra-max, /astra-ultra, /auto, route explanations, and routing behavior changes.
 ---
 
 # Adaptive Router for Codex
@@ -23,8 +23,8 @@ The MCP worker supplies the pinned model and starts with Codex multi-agent tools
 ## Route ladder
 
 - Use `adaptive_luna` for greetings, status checks, short answers, simple transformations, and routine lookups.
-- Use `adaptive_terra` for normal coding, debugging, document work, analysis, and implementation.
-- Use `adaptive_terra_high` for multi-file work, difficult debugging, detailed comparisons, or edge-case-heavy reasoning.
+- Use `adaptive_sol` for normal coding, debugging, document work, analysis, and implementation.
+- Use `adaptive_sol_high` for multi-file work, difficult debugging, detailed comparisons, or edge-case-heavy reasoning.
 - Use `adaptive_astra` for architecture, security, migration, ambiguous root-cause, high-stakes, and broad research work.
 - Use `adaptive_astra_xhigh` for sustained agentic work that spans many files or tool calls.
 - Use `adaptive_astra_max` only when exceptionally difficult correctness-sensitive work benefits from maximum reasoning.
@@ -34,8 +34,8 @@ The MCP worker supplies the pinned model and starts with Codex multi-agent tools
 
 - Inherit the previous route for short dependent follow-ups such as "continue" or "fix it".
 - Do not inherit for greetings, status-only turns, or explicit controls.
-- Recognize leading `/luna`, `/terra`, `/terra-high`, `/astra`, `/astra-xhigh`, `/astra-max`, `/astra-ultra`, and `/auto` controls.
-- Accept the deprecated `/sol`, `/sol-max`, `/sol-ultra`, and `/ultra` controls as aliases of the matching Astra route.
+- Recognize leading `/luna`, `/sol`, `/sol-high`, `/astra`, `/astra-xhigh`, `/astra-max`, `/astra-ultra`, and `/auto` controls.
+- Accept the deprecated `/terra` and `/terra-high` controls as aliases of the matching Sol route, and `/sol-max`, `/sol-ultra`, and `/ultra` as aliases of the matching Astra route.
 - Treat `/auto` as deterministic scoring for the current turn.
 - Explain the tier only when asked or when a material fallback occurs.
 

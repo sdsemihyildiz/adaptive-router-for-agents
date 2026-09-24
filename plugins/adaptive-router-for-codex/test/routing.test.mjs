@@ -14,10 +14,10 @@ import { runHook } from "../hooks/router.mjs";
 
 test("routing thresholds map to the approved ladder", () => {
   assert.equal(routeForScore(1), "adaptive_luna");
-  assert.equal(routeForScore(2), "adaptive_terra");
-  assert.equal(routeForScore(4), "adaptive_terra");
-  assert.equal(routeForScore(5), "adaptive_terra_high");
-  assert.equal(routeForScore(6), "adaptive_terra_high");
+  assert.equal(routeForScore(2), "adaptive_sol");
+  assert.equal(routeForScore(4), "adaptive_sol");
+  assert.equal(routeForScore(5), "adaptive_sol_high");
+  assert.equal(routeForScore(6), "adaptive_sol_high");
   assert.equal(routeForScore(7), "adaptive_astra");
   assert.equal(routeForScore(8), "adaptive_astra");
   assert.equal(routeForScore(9), "adaptive_astra_xhigh");
@@ -27,14 +27,14 @@ test("routing thresholds map to the approved ladder", () => {
 
 test("Turkish normalization preserves routing keywords", () => {
   assert.equal(normalizeRoutingText("İŞIĞI DÜZELT, ÇÖZÜMÜ ARAŞTIR"), "isigi duzelt, cozumu arastir");
-  assert.equal(decideRoute({ prompt: "Bu kodu düzelt ve testini yaz." }).route, "adaptive_terra");
+  assert.equal(decideRoute({ prompt: "Bu kodu düzelt ve testini yaz." }).route, "adaptive_sol");
 });
 
 test("leading explicit overrides map to exact model and effort", () => {
   const cases = [
-    ["/luna hello", "adaptive_luna", "gpt-5.6-luna", "low"],
-    ["/terra implement it", "adaptive_terra", "gpt-5.6-terra", "medium"],
-    ["/terra-high investigate", "adaptive_terra_high", "gpt-5.6-terra", "high"],
+    ["/luna hello", "adaptive_luna", "gpt-6-luna", "low"],
+    ["/sol implement it", "adaptive_sol", "gpt-6-sol", "medium"],
+    ["/sol-high investigate", "adaptive_sol_high", "gpt-6-sol", "high"],
     ["/astra analyze", "adaptive_astra", "gpt-6-astra", "high"],
     ["/astra-xhigh analyze", "adaptive_astra_xhigh", "gpt-6-astra", "xhigh"],
     ["/astra-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
@@ -48,9 +48,10 @@ test("leading explicit overrides map to exact model and effort", () => {
   }
 });
 
-test("deprecated Sol controls resolve to the matching Astra route", () => {
+test("deprecated controls resolve to the matching Sol or Astra route", () => {
   const cases = [
-    ["/sol analyze", "adaptive_astra", "gpt-6-astra", "high"],
+    ["/terra implement it", "adaptive_sol", "gpt-6-sol", "medium"],
+    ["/terra-high investigate", "adaptive_sol_high", "gpt-6-sol", "high"],
     ["/sol-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
     ["/sol-ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
     ["/ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
@@ -87,8 +88,8 @@ test("non-direct routes require root-only MCP execution without wrapper fields",
 });
 
 test("Luna is direct only when the active root is Luna", () => {
-  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-5.6-luna" }).direct, true);
-  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-5.6-terra" }).direct, false);
+  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-6-luna" }).direct, true);
+  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-6-sol" }).direct, false);
 });
 
 test("worker recursion guard emits no routing context or state", async () => {
@@ -118,7 +119,7 @@ test("persisted state and logs contain only approved metadata", async () => {
   delete process.env.ADAPTIVE_MODEL_ROUTER_WORKER;
   const privatePrompt = "Implement the confidential example with unique phrase cobalt-orchid.";
   try {
-    await runHook("UserPromptSubmit", JSON.stringify({ prompt: privatePrompt, session_id: "privacy-session", model: "gpt-5.6-luna" }));
+    await runHook("UserPromptSubmit", JSON.stringify({ prompt: privatePrompt, session_id: "privacy-session", model: "gpt-6-luna" }));
     const state = JSON.parse(await readFile(join(data, "router-state", "privacy-session.json"), "utf8"));
     const log = await readFile(join(data, "routing-decisions.jsonl"), "utf8");
     assert.deepEqual(Object.keys(state).sort(), ["effort", "model", "reasons", "route", "score", "session_id", "updated_at"]);

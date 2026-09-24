@@ -6,8 +6,8 @@ Adaptive Router for Agents chooses a worker model tier for each coding-agent tur
 
 This repository hosts two independent plugins that share the same routing design and scoring logic, adapted to each agent's own plugin, hook, and CLI conventions:
 
-- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-5.6 Luna, GPT-5.6 Terra, and GPT-6 Astra workers.
-- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku, Sonnet, Opus, and Fable workers.
+- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-6 Luna, GPT-6 Sol, and GPT-6 Astra workers.
+- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku 4.5, Sonnet 5, Opus 5.5, and Fable 5.1 workers.
 
 Each plugin installs, updates, and tests independently. Installing one does not require or affect the other.
 
@@ -19,8 +19,8 @@ Adaptive Router for Codex chooses a worker tier for each Codex turn using determ
 
 ### Features
 
-- Deterministic Luna, Terra, Terra High, Astra, Astra XHigh, Astra Max, and explicit-only Astra Ultra routes.
-- `/luna`, `/terra`, `/terra-high`, `/astra`, `/astra-xhigh`, `/astra-max`, `/astra-ultra`, and `/auto` controls, plus deprecated `/sol`, `/sol-max`, `/sol-ultra`, and `/ultra` aliases.
+- Deterministic Luna, Sol, Sol High, Astra, Astra XHigh, Astra Max, and explicit-only Astra Ultra routes.
+- `/luna`, `/sol`, `/sol-high`, `/astra`, `/astra-xhigh`, `/astra-max`, `/astra-ultra`, and `/auto` controls, plus deprecated `/terra`, `/terra-high`, `/sol-max`, `/sol-ultra`, and `/ultra` aliases.
 - Turkish-aware normalization and conservative continuation inheritance.
 - Root-only routing with no wrapper or nested subagent layer.
 - Cross-platform Node ESM hook for Windows, macOS, and Linux.
@@ -29,7 +29,7 @@ Adaptive Router for Codex chooses a worker tier for each Codex turn using determ
 
 ### Prerequisites
 
-- Codex app or CLI with ChatGPT/Codex authentication and access to the configured GPT-5.6 models.
+- Codex app or CLI with ChatGPT/Codex authentication and access to the configured GPT-6 models.
 - Node.js 22 or newer and npm.
 - Approximately 425 MB of free space for the platform-specific Codex worker downloaded by npm.
 - Windows PowerShell 5.1+ on Windows, or Bash on macOS/Linux.
@@ -84,8 +84,8 @@ After installation, restart the Codex app or start a new task. The first time th
 | PowerShell | Bash | Effect |
 |---|---|---|
 | `-DryRun` | `--dry-run` | Validate and print intended actions without installing or changing configuration. |
-| `-ConfigureCoordinator` | `--configure-coordinator` | Back up `~/.codex/config.toml`, set the root coordinator to `gpt-5.6-luna` with low effort, and enforce `agents.max_depth = 1`. |
-| `-LiveTest` | `--live-test` | Run authenticated Luna, Terra, and Astra worker smoke tests after installation. |
+| `-ConfigureCoordinator` | `--configure-coordinator` | Back up `~/.codex/config.toml`, set the root coordinator to `gpt-6-luna` with low effort, and enforce `agents.max_depth = 1`. |
+| `-LiveTest` | `--live-test` | Run authenticated Luna, Sol, and Astra worker smoke tests after installation. |
 
 Examples:
 
@@ -123,16 +123,16 @@ If coordinator configuration was enabled, restore the timestamped backup printed
 
 | Control | Model | Effort |
 |---|---|---|
-| `/luna` | `gpt-5.6-luna` | low |
-| `/terra` | `gpt-5.6-terra` | medium |
-| `/terra-high` | `gpt-5.6-terra` | high |
+| `/luna` | `gpt-6-luna` | low |
+| `/sol` | `gpt-6-sol` | medium |
+| `/sol-high` | `gpt-6-sol` | high |
 | `/astra` | `gpt-6-astra` | high |
 | `/astra-xhigh` | `gpt-6-astra` | xhigh |
 | `/astra-max` | `gpt-6-astra` | max |
 | `/astra-ultra` | `gpt-6-astra` | ultra |
 | `/auto` | Deterministic scoring | route-dependent |
 
-`gpt-6-astra` replaced `gpt-5.6-sol` as the top tier. The earlier controls remain usable as deprecated aliases: `/sol` maps to `/astra`, `/sol-max` to `/astra-max`, and `/sol-ultra` or `/ultra` to `/astra-ultra`.
+`gpt-6-sol` replaced `gpt-5.6-terra` as the middle tier, since GPT-6 has no Terra model. `/terra` and `/terra-high` remain usable as deprecated aliases of `/sol` and `/sol-high`. `gpt-6-astra` replaced `gpt-5.6-sol` as the top tier, so `/sol-max` still maps to `/astra-max`, and `/sol-ultra` or `/ultra` to `/astra-ultra`.
 
 Astra Ultra is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
 
@@ -173,7 +173,7 @@ Review the source and hook command before trusting it. See [SECURITY.md](SECURIT
 
 ### Compatibility
 
-CI targets Windows, Ubuntu, and macOS with Node.js 22 and 24. The implementation uses Node ESM and npm. Exact GPT-5.6 model availability depends on the installed Codex version and account entitlements.
+CI targets Windows, Ubuntu, and macOS with Node.js 22 and 24. The implementation uses Node ESM and npm. Exact GPT-6 model availability depends on the installed Codex version and account entitlements.
 
 ### Troubleshooting
 
@@ -322,9 +322,9 @@ Uninstall does not remove the repository automatically.
 | `/haiku` | `claude-haiku-4-5` | low |
 | `/sonnet` | `claude-sonnet-5` | medium |
 | `/sonnet-high` | `claude-sonnet-5` | high |
-| `/opus` | `claude-opus-5` | high |
-| `/opus-xhigh` | `claude-opus-5` | xhigh |
-| `/opus-max` | `claude-opus-5` | max |
+| `/opus` | `claude-opus-5-5` | high |
+| `/opus-xhigh` | `claude-opus-5-5` | xhigh |
+| `/opus-max` | `claude-opus-5-5` | max |
 | `/fable` | `claude-fable-5-1` | max |
 | `/auto` | Deterministic scoring | route-dependent |
 

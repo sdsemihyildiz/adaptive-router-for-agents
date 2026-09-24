@@ -6,6 +6,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Added
 
+- New Codex `/sol-high` control for the `adaptive_sol_high` route.
 - New `adaptive_astra_xhigh` (Codex) and `adaptive_opus_xhigh` (Claude Code) routes at the `xhigh` reasoning effort, now supported by both CLIs. Score band 9-10 selects them, so `max` is reserved for score 11 and above.
 - New Codex controls `/astra`, `/astra-xhigh`, `/astra-max`, and `/astra-ultra`, plus the Claude Code control `/opus-xhigh`.
 - New, fully independent Claude Code plugin (`plugins/adaptive-router-for-claude`) with the same deterministic local routing design, ported to Claude's Haiku, Sonnet, Opus, and Fable model tiers. See the Claude Code section of the README.
@@ -13,7 +14,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
-- Codex top tier moved from `gpt-5.6-sol` to `gpt-6-astra`. The `adaptive_sol`, `adaptive_sol_max`, and `adaptive_sol_ultra` routes are replaced by `adaptive_astra`, `adaptive_astra_max`, and `adaptive_astra_ultra`. The `/sol`, `/sol-max`, `/sol-ultra`, and `/ultra` controls keep working as deprecated aliases of the matching Astra route.
+- Codex `adaptive_luna` now targets `gpt-6-luna` instead of `gpt-5.6-luna`, and the coordinator configuration sets `gpt-6-luna` as the root model.
+- Codex middle tier moved from `gpt-5.6-terra` to `gpt-6-sol`, since GPT-6 has no Terra model. The `adaptive_terra` and `adaptive_terra_high` routes are replaced by `adaptive_sol` and `adaptive_sol_high`. `/terra` and `/terra-high` keep working as deprecated aliases. `/sol` now selects `adaptive_sol` instead of `adaptive_astra`; `/sol-max`, `/sol-ultra`, and `/ultra` still resolve to the matching Astra route.
+- Claude Code `adaptive_opus`, `adaptive_opus_xhigh`, and `adaptive_opus_max` now target `claude-opus-5-5` instead of `claude-opus-5`.
+- Codex worker CLI upgraded from `@openai/codex` 0.144.1 to 0.156.1, which is required for the GPT-6 models. `@modelcontextprotocol/sdk` upgraded to 1.30.1 and `zod` to 4.6.5 in both plugins, clearing all `npm audit` findings.
+- Codex top tier moved from `gpt-5.6-sol` to `gpt-6-astra`. The `adaptive_sol`, `adaptive_sol_max`, and `adaptive_sol_ultra` routes are replaced by `adaptive_astra`, `adaptive_astra_max`, and `adaptive_astra_ultra`. The `/sol-max`, `/sol-ultra`, and `/ultra` controls keep working as deprecated aliases of the matching Astra route.
 - Claude Code `adaptive_fable` now targets `claude-fable-5-1` instead of `claude-fable-5`.
 - Claude Code `adaptive_haiku` now uses the canonical `claude-haiku-4-5` model id instead of the dated `claude-haiku-4-5-20251001` snapshot id.
 - Claude Code routed-worker failures now append a diagnostic hint when the underlying error is an auth failure, explaining that `--bare` mode requires `ANTHROPIC_API_KEY` (or an `apiKeyHelper`) and does not read the root session's interactive OAuth/subscription/keychain state.

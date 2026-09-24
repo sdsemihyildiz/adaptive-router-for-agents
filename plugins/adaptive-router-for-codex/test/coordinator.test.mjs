@@ -23,7 +23,7 @@ test("optional coordinator configuration backs up root settings and enforces one
     });
     assert.equal(result.status, 0, result.stderr);
     const updated = await readFile(config, "utf8");
-    assert.match(updated, /^model = "gpt-5\.6-luna"$/m);
+    assert.match(updated, /^model = "gpt-6-luna"$/m);
     assert.match(updated, /^model_reasoning_effort = "low"$/m);
     assert.match(updated, /^\[agents\]$[\s\S]*^max_threads = 4$[\s\S]*^max_depth = 1$/m);
     assert.equal((updated.match(/^max_depth\s*=/gm) ?? []).length, 1);

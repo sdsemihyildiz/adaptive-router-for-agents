@@ -1,7 +1,7 @@
 export const routeConfig = Object.freeze({
-  adaptive_luna: Object.freeze({ model: "gpt-5.6-luna", effort: "low" }),
-  adaptive_terra: Object.freeze({ model: "gpt-5.6-terra", effort: "medium" }),
-  adaptive_terra_high: Object.freeze({ model: "gpt-5.6-terra", effort: "high" }),
+  adaptive_luna: Object.freeze({ model: "gpt-6-luna", effort: "low" }),
+  adaptive_sol: Object.freeze({ model: "gpt-6-sol", effort: "medium" }),
+  adaptive_sol_high: Object.freeze({ model: "gpt-6-sol", effort: "high" }),
   adaptive_astra: Object.freeze({ model: "gpt-6-astra", effort: "high" }),
   adaptive_astra_xhigh: Object.freeze({ model: "gpt-6-astra", effort: "xhigh" }),
   adaptive_astra_max: Object.freeze({ model: "gpt-6-astra", effort: "max" }),
@@ -12,13 +12,14 @@ const routeNames = new Set(Object.keys(routeConfig));
 
 const controlAliases = Object.freeze({
   luna: "adaptive_luna",
-  terra: "adaptive_terra",
-  "terra-high": "adaptive_terra_high",
+  sol: "adaptive_sol",
+  "sol-high": "adaptive_sol_high",
   astra: "adaptive_astra",
   "astra-xhigh": "adaptive_astra_xhigh",
   "astra-max": "adaptive_astra_max",
   "astra-ultra": "adaptive_astra_ultra",
-  sol: "adaptive_astra",
+  terra: "adaptive_sol",
+  "terra-high": "adaptive_sol_high",
   "sol-max": "adaptive_astra_max",
   "sol-ultra": "adaptive_astra_ultra",
   ultra: "adaptive_astra_ultra",
@@ -39,7 +40,7 @@ function addReason(reasons, value) {
 
 export function leadingControl(prompt = "") {
   const match = String(prompt).match(
-    /^\s*[/@](astra-ultra|astra-xhigh|astra-max|sol-ultra|sol-max|terra-high|astra|luna|terra|ultra|sol|auto)(?=\s|$)/i,
+    /^\s*[/@](astra-ultra|astra-xhigh|astra-max|sol-ultra|sol-high|sol-max|terra-high|astra|luna|terra|ultra|sol|auto)(?=\s|$)/i,
   );
   if (!match) return null;
   const value = match[1].toLowerCase();
@@ -59,8 +60,8 @@ export function isContinuation(prompt = "") {
 
 export function routeForScore(score) {
   if (score <= 1) return "adaptive_luna";
-  if (score <= 4) return "adaptive_terra";
-  if (score <= 6) return "adaptive_terra_high";
+  if (score <= 4) return "adaptive_sol";
+  if (score <= 6) return "adaptive_sol_high";
   if (score <= 8) return "adaptive_astra";
   if (score <= 10) return "adaptive_astra_xhigh";
   return "adaptive_astra_max";
@@ -155,10 +156,10 @@ export function createStateRecord(sessionId, decision, timestamp = new Date().to
 export function renderSessionContext() {
   return `ADAPTIVE_ROUTER_FOR_CODEX is enabled for every turn.
 Use the latest routing decision injected by UserPromptSubmit. The root task is the only routing coordinator and invokes model-pinned MCP workers directly.
-Available routes: adaptive_luna, adaptive_terra, adaptive_terra_high, adaptive_astra, adaptive_astra_xhigh, adaptive_astra_max, adaptive_astra_ultra.
+Available routes: adaptive_luna, adaptive_sol, adaptive_sol_high, adaptive_astra, adaptive_astra_xhigh, adaptive_astra_max, adaptive_astra_ultra.
 For a non-direct route, call the adaptive-router-for-codex MCP tool \`run_routed_task\` exactly once from the root task. Never create a generic or visible subagent for routing.
-Explicit controls: /luna, /terra, /terra-high, /astra, /astra-xhigh, /astra-max, /astra-ultra, and /auto.
-Deprecated aliases /sol, /sol-max, /sol-ultra, and /ultra still resolve to the matching Astra route.
+Explicit controls: /luna, /sol, /sol-high, /astra, /astra-xhigh, /astra-max, /astra-ultra, and /auto.
+Deprecated aliases /terra and /terra-high resolve to the matching Sol route; /sol-max, /sol-ultra, and /ultra resolve to the matching Astra route.
 Do not claim that the displayed root model hot-switched. The selected worker model performs the substantive task and returns its result to this conversation.`;
 }
 

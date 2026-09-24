@@ -4,9 +4,9 @@
 
 | Score or control | Route | Model | Effort | Typical work |
 |---|---|---|---|---|
-| Explicit `/luna`, or score <= 1 | `adaptive_luna` | `gpt-5.6-luna` | low | Short, routine, latency-sensitive work |
-| Explicit `/terra`, or score 2-4 | `adaptive_terra` | `gpt-5.6-terra` | medium | Normal professional and coding work |
-| Explicit `/terra-high`, or score 5-6 | `adaptive_terra_high` | `gpt-5.6-terra` | high | Complex implementation and debugging |
+| Explicit `/luna`, or score <= 1 | `adaptive_luna` | `gpt-6-luna` | low | Short, routine, latency-sensitive work |
+| Explicit `/sol`, or score 2-4 | `adaptive_sol` | `gpt-6-sol` | medium | Normal professional and coding work |
+| Explicit `/sol-high`, or score 5-6 | `adaptive_sol_high` | `gpt-6-sol` | high | Complex implementation and debugging |
 | Explicit `/astra`, or score 7-8 | `adaptive_astra` | `gpt-6-astra` | high | Ambiguous, high-risk, long-horizon work |
 | Explicit `/astra-xhigh`, or score 9-10 | `adaptive_astra_xhigh` | `gpt-6-astra` | xhigh | Sustained agentic and multi-file coding work |
 | Explicit `/astra-max`, or score >= 11 | `adaptive_astra_max` | `gpt-6-astra` | max | The hardest correctness-sensitive work |
@@ -14,7 +14,7 @@
 
 `/auto` ignores manual selection for the current turn and returns to scoring.
 
-`gpt-6-astra` replaced `gpt-5.6-sol` as the top tier. The former controls stay usable as deprecated aliases: `/sol` resolves to `adaptive_astra`, `/sol-max` to `adaptive_astra_max`, and `/sol-ultra` or `/ultra` to `adaptive_astra_ultra`. Prefer the `astra` names in new documentation and prompts.
+`gpt-6-sol` replaced `gpt-5.6-terra` as the middle tier, since GPT-6 has no Terra model: `/terra` resolves to `adaptive_sol` and `/terra-high` to `adaptive_sol_high`. `gpt-6-astra` replaced `gpt-5.6-sol` as the top tier: `/sol-max` resolves to `adaptive_astra_max`, and `/sol-ultra` or `/ultra` to `adaptive_astra_ultra`. Prefer the current names in new documentation and prompts.
 
 ## Scoring signals
 

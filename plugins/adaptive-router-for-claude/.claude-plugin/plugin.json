@@ -2,7 +2,7 @@
   "name": "adaptive-router-for-claude",
   "displayName": "Adaptive Router for Claude Code",
   "version": "0.1.0",
-  "description": "Deterministic local routing across Claude Haiku 4.5, Sonnet 5, Opus 5, and Fable 5.1 workers for Claude Code.",
+  "description": "Deterministic local routing across Claude Haiku 4.5, Sonnet 5, Opus 5.5, and Fable 5.1 workers for Claude Code.",
   "author": {
     "name": "sdsemihyildiz",
     "url": "https://github.com/sdsemihyildiz"

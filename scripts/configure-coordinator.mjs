@@ -61,10 +61,10 @@ function setSectionKey(section, key, value) {
   else lines.splice(end, 0, replacement);
 }
 
-setTopLevel("model", "gpt-5.6-luna");
+setTopLevel("model", "gpt-6-luna");
 setTopLevel("model_reasoning_effort", "low");
 setSectionKey("agents", "max_depth", 1);
 const output = `${lines.join(newline).replace(/(?:\r?\n)*$/, "")}${newline}`;
 await writeFile(configPath, output, "utf8");
 console.log(backupPath ? `Backed up Codex config to ${backupPath}` : `Created Codex config at ${configPath}`);
-console.log("Configured gpt-5.6-luna with low reasoning effort and agents.max_depth=1 for new root tasks.");
+console.log("Configured gpt-6-luna with low reasoning effort and agents.max_depth=1 for new root tasks.");

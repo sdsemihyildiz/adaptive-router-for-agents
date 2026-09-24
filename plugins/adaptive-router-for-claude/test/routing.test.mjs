@@ -35,9 +35,9 @@ test("leading explicit overrides map to exact model and effort", () => {
     ["/haiku hello", "adaptive_haiku", "claude-haiku-4-5", "low"],
     ["/sonnet implement it", "adaptive_sonnet", "claude-sonnet-5", "medium"],
     ["/sonnet-high investigate", "adaptive_sonnet_high", "claude-sonnet-5", "high"],
-    ["/opus analyze", "adaptive_opus", "claude-opus-5", "high"],
-    ["/opus-xhigh analyze", "adaptive_opus_xhigh", "claude-opus-5", "xhigh"],
-    ["/opus-max analyze", "adaptive_opus_max", "claude-opus-5", "max"],
+    ["/opus analyze", "adaptive_opus", "claude-opus-5-5", "high"],
+    ["/opus-xhigh analyze", "adaptive_opus_xhigh", "claude-opus-5-5", "xhigh"],
+    ["/opus-max analyze", "adaptive_opus_max", "claude-opus-5-5", "max"],
     ["/fable analyze", "adaptive_fable", "claude-fable-5-1", "max"],
   ];
   for (const [prompt, route, model, effort] of cases) {

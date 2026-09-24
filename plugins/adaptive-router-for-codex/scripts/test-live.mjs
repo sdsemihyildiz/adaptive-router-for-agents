@@ -14,8 +14,8 @@ const client = new Client({ name: "adaptive-router-for-codex-live-test", version
 try {
   await client.connect(transport);
   const checks = [
-    { route: "adaptive_luna", model: "gpt-5.6-luna", effort: "low" },
-    { route: "adaptive_terra", model: "gpt-5.6-terra", effort: "medium" },
+    { route: "adaptive_luna", model: "gpt-6-luna", effort: "low" },
+    { route: "adaptive_sol", model: "gpt-6-sol", effort: "medium" },
     { route: "adaptive_astra", model: "gpt-6-astra", effort: "high" },
   ];
 
