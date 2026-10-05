@@ -5,8 +5,8 @@
 | Score or control | Route | Model | Effort | Typical work |
 |---|---|---|---|---|
 | Explicit `/haiku`, or score <= 1 | `adaptive_haiku` | `claude-haiku-4-5` | low | Short, routine, latency-sensitive work |
-| Explicit `/sonnet`, or score 2-4 | `adaptive_sonnet` | `claude-sonnet-5` | medium | Normal professional and coding work |
-| Explicit `/sonnet-high`, or score 5-6 | `adaptive_sonnet_high` | `claude-sonnet-5` | high | Complex implementation and debugging |
+| Explicit `/sonnet`, or score 2-4 | `adaptive_sonnet` | `claude-sonnet-5-5` | medium | Normal professional and coding work |
+| Explicit `/sonnet-high`, or score 5-6 | `adaptive_sonnet_high` | `claude-sonnet-5-5` | high | Complex implementation and debugging |
 | Explicit `/opus`, or score 7-8 | `adaptive_opus` | `claude-opus-5-5` | high | Ambiguous, high-risk, long-horizon work |
 | Explicit `/opus-xhigh`, or score 9-10 | `adaptive_opus_xhigh` | `claude-opus-5-5` | xhigh | Sustained agentic and multi-file coding work |
 | Explicit `/opus-max`, or score >= 11 | `adaptive_opus_max` | `claude-opus-5-5` | max | The hardest correctness-sensitive work |

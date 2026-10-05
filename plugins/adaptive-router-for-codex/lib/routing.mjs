@@ -1,7 +1,7 @@
 export const routeConfig = Object.freeze({
   adaptive_luna: Object.freeze({ model: "gpt-6-luna", effort: "low" }),
-  adaptive_sol: Object.freeze({ model: "gpt-6-sol", effort: "medium" }),
-  adaptive_sol_high: Object.freeze({ model: "gpt-6-sol", effort: "high" }),
+  adaptive_sol: Object.freeze({ model: "gpt-6.1-sol", effort: "medium" }),
+  adaptive_sol_high: Object.freeze({ model: "gpt-6.1-sol", effort: "high" }),
   adaptive_astra: Object.freeze({ model: "gpt-6-astra", effort: "high" }),
   adaptive_astra_xhigh: Object.freeze({ model: "gpt-6-astra", effort: "xhigh" }),
   adaptive_astra_max: Object.freeze({ model: "gpt-6-astra", effort: "max" }),

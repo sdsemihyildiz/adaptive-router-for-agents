@@ -1,7 +1,7 @@
 export const routeConfig = Object.freeze({
   adaptive_haiku: Object.freeze({ model: "claude-haiku-4-5", effort: "low" }),
-  adaptive_sonnet: Object.freeze({ model: "claude-sonnet-5", effort: "medium" }),
-  adaptive_sonnet_high: Object.freeze({ model: "claude-sonnet-5", effort: "high" }),
+  adaptive_sonnet: Object.freeze({ model: "claude-sonnet-5-5", effort: "medium" }),
+  adaptive_sonnet_high: Object.freeze({ model: "claude-sonnet-5-5", effort: "high" }),
   adaptive_opus: Object.freeze({ model: "claude-opus-5-5", effort: "high" }),
   adaptive_opus_xhigh: Object.freeze({ model: "claude-opus-5-5", effort: "xhigh" }),
   adaptive_opus_max: Object.freeze({ model: "claude-opus-5-5", effort: "max" }),

@@ -15,7 +15,7 @@ try {
   await client.connect(transport);
   const checks = [
     { route: "adaptive_luna", model: "gpt-6-luna", effort: "low" },
-    { route: "adaptive_sol", model: "gpt-6-sol", effort: "medium" },
+    { route: "adaptive_sol", model: "gpt-6.1-sol", effort: "medium" },
     { route: "adaptive_astra", model: "gpt-6-astra", effort: "high" },
   ];
 

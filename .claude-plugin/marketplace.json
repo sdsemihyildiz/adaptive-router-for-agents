@@ -8,7 +8,7 @@
     {
       "name": "adaptive-router-for-claude",
       "source": "./plugins/adaptive-router-for-claude",
-      "description": "Deterministic local routing across Claude Haiku 4.5, Sonnet 5, Opus 5.5, and Fable 5.1 workers.",
+      "description": "Deterministic local routing across Claude Haiku 4.5, Sonnet 5.5, Opus 5.5, and Fable 5.1 workers.",
       "category": "Productivity"
     }
   ]

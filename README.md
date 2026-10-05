@@ -6,8 +6,8 @@ Adaptive Router for Agents chooses a worker model tier for each coding-agent tur
 
 This repository hosts two independent plugins that share the same routing design and scoring logic, adapted to each agent's own plugin, hook, and CLI conventions:
 
-- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-6 Luna, GPT-6 Sol, and GPT-6 Astra workers.
-- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku 4.5, Sonnet 5, Opus 5.5, and Fable 5.1 workers.
+- **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra workers.
+- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku 4.5, Sonnet 5.5, Opus 5.5, and Fable 5.1 workers.
 
 Each plugin installs, updates, and tests independently. Installing one does not require or affect the other.
 
@@ -124,15 +124,15 @@ If coordinator configuration was enabled, restore the timestamped backup printed
 | Control | Model | Effort |
 |---|---|---|
 | `/luna` | `gpt-6-luna` | low |
-| `/sol` | `gpt-6-sol` | medium |
-| `/sol-high` | `gpt-6-sol` | high |
+| `/sol` | `gpt-6.1-sol` | medium |
+| `/sol-high` | `gpt-6.1-sol` | high |
 | `/astra` | `gpt-6-astra` | high |
 | `/astra-xhigh` | `gpt-6-astra` | xhigh |
 | `/astra-max` | `gpt-6-astra` | max |
 | `/astra-ultra` | `gpt-6-astra` | ultra |
 | `/auto` | Deterministic scoring | route-dependent |
 
-`gpt-6-sol` replaced `gpt-5.6-terra` as the middle tier, since GPT-6 has no Terra model. `/terra` and `/terra-high` remain usable as deprecated aliases of `/sol` and `/sol-high`. `gpt-6-astra` replaced `gpt-5.6-sol` as the top tier, so `/sol-max` still maps to `/astra-max`, and `/sol-ultra` or `/ultra` to `/astra-ultra`.
+`gpt-6.1-sol` replaced `gpt-5.6-terra` as the middle tier, since GPT-6 has no Terra model. `/terra` and `/terra-high` remain usable as deprecated aliases of `/sol` and `/sol-high`. `gpt-6-astra` replaced `gpt-5.6-sol` as the top tier, so `/sol-max` still maps to `/astra-max`, and `/sol-ultra` or `/ultra` to `/astra-ultra`.
 
 Astra Ultra is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
 
@@ -320,8 +320,8 @@ Uninstall does not remove the repository automatically.
 | Control | Model | Effort |
 |---|---|---|
 | `/haiku` | `claude-haiku-4-5` | low |
-| `/sonnet` | `claude-sonnet-5` | medium |
-| `/sonnet-high` | `claude-sonnet-5` | high |
+| `/sonnet` | `claude-sonnet-5-5` | medium |
+| `/sonnet-high` | `claude-sonnet-5-5` | high |
 | `/opus` | `claude-opus-5-5` | high |
 | `/opus-xhigh` | `claude-opus-5-5` | xhigh |
 | `/opus-max` | `claude-opus-5-5` | max |

@@ -33,8 +33,8 @@ test("MCP server registers run_routed_task under the public identity", async () 
 });
 
 test("structured success output includes exact model and effort", () => {
-  const result = successResult({ text: "ok", model: "claude-sonnet-5", effort: "high" });
-  assert.deepEqual(result.structuredContent, { model: "claude-sonnet-5", reasoning_effort: "high" });
+  const result = successResult({ text: "ok", model: "claude-sonnet-5-5", effort: "high" });
+  assert.deepEqual(result.structuredContent, { model: "claude-sonnet-5-5", reasoning_effort: "high" });
 });
 
 test("worker arguments pin model, effort, permission mode, and exclude Task/Agent tools", () => {
@@ -81,7 +81,7 @@ test("worker success uses shell false, recursion env, and structured runtime met
         },
       },
     );
-    assert.deepEqual(result, { text: "fake worker ok", model: "claude-sonnet-5", effort: "high" });
+    assert.deepEqual(result, { text: "fake worker ok", model: "claude-sonnet-5-5", effort: "high" });
     assert.equal(capturedOptions.shell, false);
     assert.equal(capturedOptions.env.ADAPTIVE_MODEL_ROUTER_WORKER, "1");
   } finally {

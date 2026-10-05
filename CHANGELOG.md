@@ -14,6 +14,9 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Codex `adaptive_sol` and `adaptive_sol_high` now target `gpt-6.1-sol` instead of `gpt-6-sol`.
+- Claude Code `adaptive_sonnet` and `adaptive_sonnet_high` now target `claude-sonnet-5-5` instead of `claude-sonnet-5`.
+- Codex worker CLI upgraded to `@openai/codex` 0.160.0 and `@modelcontextprotocol/sdk` to 1.32.0 in both plugins.
 - Codex `adaptive_luna` now targets `gpt-6-luna` instead of `gpt-5.6-luna`, and the coordinator configuration sets `gpt-6-luna` as the root model.
 - Codex middle tier moved from `gpt-5.6-terra` to `gpt-6-sol`, since GPT-6 has no Terra model. The `adaptive_terra` and `adaptive_terra_high` routes are replaced by `adaptive_sol` and `adaptive_sol_high`. `/terra` and `/terra-high` keep working as deprecated aliases. `/sol` now selects `adaptive_sol` instead of `adaptive_astra`; `/sol-max`, `/sol-ultra`, and `/ultra` still resolve to the matching Astra route.
 - Claude Code `adaptive_opus`, `adaptive_opus_xhigh`, and `adaptive_opus_max` now target `claude-opus-5-5` instead of `claude-opus-5`.

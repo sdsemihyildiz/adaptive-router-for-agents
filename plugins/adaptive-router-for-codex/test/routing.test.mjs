@@ -33,8 +33,8 @@ test("Turkish normalization preserves routing keywords", () => {
 test("leading explicit overrides map to exact model and effort", () => {
   const cases = [
     ["/luna hello", "adaptive_luna", "gpt-6-luna", "low"],
-    ["/sol implement it", "adaptive_sol", "gpt-6-sol", "medium"],
-    ["/sol-high investigate", "adaptive_sol_high", "gpt-6-sol", "high"],
+    ["/sol implement it", "adaptive_sol", "gpt-6.1-sol", "medium"],
+    ["/sol-high investigate", "adaptive_sol_high", "gpt-6.1-sol", "high"],
     ["/astra analyze", "adaptive_astra", "gpt-6-astra", "high"],
     ["/astra-xhigh analyze", "adaptive_astra_xhigh", "gpt-6-astra", "xhigh"],
     ["/astra-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
@@ -50,8 +50,8 @@ test("leading explicit overrides map to exact model and effort", () => {
 
 test("deprecated controls resolve to the matching Sol or Astra route", () => {
   const cases = [
-    ["/terra implement it", "adaptive_sol", "gpt-6-sol", "medium"],
-    ["/terra-high investigate", "adaptive_sol_high", "gpt-6-sol", "high"],
+    ["/terra implement it", "adaptive_sol", "gpt-6.1-sol", "medium"],
+    ["/terra-high investigate", "adaptive_sol_high", "gpt-6.1-sol", "high"],
     ["/sol-max analyze", "adaptive_astra_max", "gpt-6-astra", "max"],
     ["/sol-ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
     ["/ultra analyze", "adaptive_astra_ultra", "gpt-6-astra", "ultra"],
@@ -89,7 +89,7 @@ test("non-direct routes require root-only MCP execution without wrapper fields",
 
 test("Luna is direct only when the active root is Luna", () => {
   assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-6-luna" }).direct, true);
-  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-6-sol" }).direct, false);
+  assert.equal(decideRoute({ prompt: "hello", activeModel: "gpt-6.1-sol" }).direct, false);
 });
 
 test("worker recursion guard emits no routing context or state", async () => {

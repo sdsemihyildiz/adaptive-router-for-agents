@@ -33,8 +33,8 @@ test("Turkish normalization preserves routing keywords", () => {
 test("leading explicit overrides map to exact model and effort", () => {
   const cases = [
     ["/haiku hello", "adaptive_haiku", "claude-haiku-4-5", "low"],
-    ["/sonnet implement it", "adaptive_sonnet", "claude-sonnet-5", "medium"],
-    ["/sonnet-high investigate", "adaptive_sonnet_high", "claude-sonnet-5", "high"],
+    ["/sonnet implement it", "adaptive_sonnet", "claude-sonnet-5-5", "medium"],
+    ["/sonnet-high investigate", "adaptive_sonnet_high", "claude-sonnet-5-5", "high"],
     ["/opus analyze", "adaptive_opus", "claude-opus-5-5", "high"],
     ["/opus-xhigh analyze", "adaptive_opus_xhigh", "claude-opus-5-5", "xhigh"],
     ["/opus-max analyze", "adaptive_opus_max", "claude-opus-5-5", "max"],
@@ -73,7 +73,7 @@ test("non-direct routes require root-only MCP execution without wrapper fields",
 
 test("Haiku is direct only when the active root is Haiku", () => {
   assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-haiku-4-5" }).direct, true);
-  assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-sonnet-5" }).direct, false);
+  assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-sonnet-5-5" }).direct, false);
 });
 
 test("worker recursion guard emits no routing context or state", async () => {

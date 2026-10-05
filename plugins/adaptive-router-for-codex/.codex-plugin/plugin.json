@@ -1,7 +1,7 @@
 {
   "name": "adaptive-router-for-codex",
   "version": "0.1.0",
-  "description": "Deterministic local routing across GPT-6 Luna, GPT-6 Sol, and GPT-6 Astra workers for Codex.",
+  "description": "Deterministic local routing across GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra workers for Codex.",
   "author": {
     "name": "sdsemihyildiz",
     "url": "https://github.com/sdsemihyildiz"
