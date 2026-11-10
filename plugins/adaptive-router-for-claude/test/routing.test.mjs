@@ -32,13 +32,13 @@ test("Turkish normalization preserves routing keywords", () => {
 
 test("leading explicit overrides map to exact model and effort", () => {
   const cases = [
-    ["/haiku hello", "adaptive_haiku", "claude-haiku-4-5", "low"],
+    ["/haiku hello", "adaptive_haiku", "claude-haiku-5-5", "low"],
     ["/sonnet implement it", "adaptive_sonnet", "claude-sonnet-5-5", "medium"],
     ["/sonnet-high investigate", "adaptive_sonnet_high", "claude-sonnet-5-5", "high"],
     ["/opus analyze", "adaptive_opus", "claude-opus-5-5", "high"],
     ["/opus-xhigh analyze", "adaptive_opus_xhigh", "claude-opus-5-5", "xhigh"],
     ["/opus-max analyze", "adaptive_opus_max", "claude-opus-5-5", "max"],
-    ["/fable analyze", "adaptive_fable", "claude-fable-5-1", "max"],
+    ["/fable analyze", "adaptive_fable", "claude-fable-5-2", "max"],
   ];
   for (const [prompt, route, model, effort] of cases) {
     const decision = decideRoute({ prompt });
@@ -72,7 +72,7 @@ test("non-direct routes require root-only MCP execution without wrapper fields",
 });
 
 test("Haiku is direct only when the active root is Haiku", () => {
-  assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-haiku-4-5" }).direct, true);
+  assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-haiku-5-5" }).direct, true);
   assert.equal(decideRoute({ prompt: "hello", activeModel: "claude-sonnet-5-5" }).direct, false);
 });
 
@@ -103,7 +103,7 @@ test("persisted state and logs contain only approved metadata", async () => {
   delete process.env.ADAPTIVE_MODEL_ROUTER_WORKER;
   const privatePrompt = "Implement the confidential example with unique phrase cobalt-orchid.";
   try {
-    await runHook("UserPromptSubmit", JSON.stringify({ prompt: privatePrompt, session_id: "privacy-session", model: "claude-haiku-4-5" }));
+    await runHook("UserPromptSubmit", JSON.stringify({ prompt: privatePrompt, session_id: "privacy-session", model: "claude-haiku-5-5" }));
     const state = JSON.parse(await readFile(join(data, "router-state", "privacy-session.json"), "utf8"));
     const log = await readFile(join(data, "routing-decisions.jsonl"), "utf8");
     assert.deepEqual(Object.keys(state).sort(), ["effort", "model", "reasons", "route", "score", "session_id", "updated_at"]);

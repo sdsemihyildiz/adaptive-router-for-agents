@@ -14,6 +14,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Claude Code `adaptive_haiku` now targets `claude-haiku-5-5` instead of `claude-haiku-4-5`, and `adaptive_fable` now targets `claude-fable-5-2` instead of `claude-fable-5-1`.
+- Codex worker CLI upgraded to `@openai/codex` 0.167.0, `@modelcontextprotocol/sdk` to 1.32.2, and `zod` to 4.6.7 in both plugins.
 - Codex `adaptive_sol` and `adaptive_sol_high` now target `gpt-6.1-sol` instead of `gpt-6-sol`.
 - Claude Code `adaptive_sonnet` and `adaptive_sonnet_high` now target `claude-sonnet-5-5` instead of `claude-sonnet-5`.
 - Codex worker CLI upgraded to `@openai/codex` 0.160.0 and `@modelcontextprotocol/sdk` to 1.32.0 in both plugins.

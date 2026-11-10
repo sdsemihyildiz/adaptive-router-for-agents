@@ -7,7 +7,7 @@ Adaptive Router for Agents chooses a worker model tier for each coding-agent tur
 This repository hosts two independent plugins that share the same routing design and scoring logic, adapted to each agent's own plugin, hook, and CLI conventions:
 
 - **[Codex](#codex):** `plugins/adaptive-router-for-codex/`, routes across GPT-6 Luna, GPT-6.1 Sol, and GPT-6 Astra workers.
-- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku 4.5, Sonnet 5.5, Opus 5.5, and Fable 5.1 workers.
+- **[Claude Code](#claude-code):** `plugins/adaptive-router-for-claude/`, routes across Claude Haiku 5.5, Sonnet 5.5, Opus 5.5, and Fable 5.2 workers.
 
 Each plugin installs, updates, and tests independently. Installing one does not require or affect the other.
 
@@ -319,13 +319,13 @@ Uninstall does not remove the repository automatically.
 
 | Control | Model | Effort |
 |---|---|---|
-| `/haiku` | `claude-haiku-4-5` | low |
+| `/haiku` | `claude-haiku-5-5` | low |
 | `/sonnet` | `claude-sonnet-5-5` | medium |
 | `/sonnet-high` | `claude-sonnet-5-5` | high |
 | `/opus` | `claude-opus-5-5` | high |
 | `/opus-xhigh` | `claude-opus-5-5` | xhigh |
 | `/opus-max` | `claude-opus-5-5` | max |
-| `/fable` | `claude-fable-5-1` | max |
+| `/fable` | `claude-fable-5-2` | max |
 | `/auto` | Deterministic scoring | route-dependent |
 
 Fable is never selected automatically. Short dependent prompts such as "continue" can inherit the prior route. Greetings and status-only prompts do not inherit it.
